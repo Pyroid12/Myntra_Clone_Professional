@@ -122,6 +122,7 @@ function removeFromBag(itemId) {
     try { bagItems = JSON.parse(localStorage.getItem('bagItems') || '[]'); } catch(e) {}
     bagItems = bagItems.filter(function(id) { return id != itemId; });
     localStorage.setItem('bagItems', JSON.stringify(bagItems));
+    window.dispatchEvent(new Event('storage-update'));
     bagItemObjects = bagItemObjects.filter(function(item) { return item.id != itemId; });
     delete quantities[itemId];
     renderBagPage();
