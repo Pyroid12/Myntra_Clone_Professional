@@ -1,0 +1,41 @@
+{
+    "name": "Myntra – Fashion at its Best",
+    "short_name": "Myntra",
+    "description": "Shop fashion, accessories and more on Myntra",
+    "start_url": "/Myntra_Clone_Professional/index.html",
+    "scope": "/Myntra_Clone_Professional/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ff3f6c",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/Myntra_Clone_Professional/myntra_logo.webp",
+            "sizes": "192x192",
+            "type": "image/webp",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/Myntra_Clone_Professional/myntra_logo.webp",
+            "sizes": "512x512",
+            "type": "image/webp",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["shopping", "lifestyle"],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "My Bag",
+            "short_name": "Bag",
+            "url": "/Myntra_Clone_Professional/bag.html",
+            "icons": [{ "src": "/Myntra_Clone_Professional/myntra_logo.webp", "sizes": "192x192" }]
+        },
+        {
+            "name": "My Wishlist",
+            "short_name": "Wishlist",
+            "url": "/Myntra_Clone_Professional/wishlist.html",
+            "icons": [{ "src": "/Myntra_Clone_Professional/myntra_logo.webp", "sizes": "192x192" }]
+        }
+    ]
+}
