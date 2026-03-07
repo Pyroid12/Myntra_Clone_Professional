@@ -19,13 +19,15 @@ import { getFirestore, doc, getDoc, setDoc, updateDoc, arrayUnion, arrayRemove }
 
 /* ── YOUR FIREBASE CONFIG — Replace with your own values ── */
 const firebaseConfig = {
-    apiKey:            "YOUR_API_KEY",
-    authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId:         "YOUR_PROJECT_ID",
-    storageBucket:     "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_SENDER_ID",
-    appId:             "YOUR_APP_ID"
+  apiKey: "AIzaSyBUD18RFEk0ot9w1noQ_mLIKEUFcalIj7E",
+  authDomain: "myntra-clone-4c7f9.firebaseapp.com",
+  projectId: "myntra-clone-4c7f9",
+  storageBucket: "myntra-clone-4c7f9.firebasestorage.app",
+  messagingSenderId: "468539949171",
+  appId: "1:468539949171:web:d2672a9f0975ce39412a06",
+  measurementId: "G-QKSQ71PPHN"
 };
+
 
 /* ── Init ── */
 const app  = initializeApp(firebaseConfig);
