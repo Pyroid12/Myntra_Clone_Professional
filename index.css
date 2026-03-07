@@ -376,3 +376,33 @@ footer { background:#fff; border-top:1px solid var(--border); margin-top:32px; }
     .items-container { grid-template-columns:repeat(2,1fr); gap:10px; }
     .footer-top { grid-template-columns:1fr; }
 }
+
+/* ── PWA Install Banner ── */
+.pwa-banner {
+    background: linear-gradient(135deg, #282c3f, #535766);
+    color: #fff;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    font-weight: 600;
+}
+.pwa-banner .material-symbols-outlined { color: #ff3f6c; font-size: 22px; flex-shrink: 0; }
+.pwa-banner span:nth-child(2) { flex: 1; }
+.pwa-install-btn {
+    background: #ff3f6c; color: #fff;
+    border: none; border-radius: 4px;
+    padding: 8px 20px; font-size: 13px;
+    font-weight: 700; cursor: pointer;
+    white-space: nowrap;
+    transition: opacity .2s;
+}
+.pwa-install-btn:hover { opacity: .85; }
+.pwa-dismiss-btn {
+    background: none; border: none;
+    color: #fff; font-size: 18px;
+    cursor: pointer; padding: 4px 8px;
+    opacity: .7; transition: opacity .2s;
+}
+.pwa-dismiss-btn:hover { opacity: 1; }
