@@ -1,0 +1,176 @@
+/* ============================================================
+   MYNTRA CLONE — auth.css
+   Login modal + user avatar styles
+   ============================================================ */
+
+/* ── User Avatar in header ── */
+.user-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ff3f6c;
+}
+
+/* ── Sign Out button in header ── */
+#signOutBtn {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+    cursor: pointer;
+    color: #282c3f;
+    padding: 4px 6px;
+    border: none;
+    background: none;
+    font-family: inherit;
+    border-radius: 4px;
+    transition: color .2s;
+}
+#signOutBtn:hover { color: #ff3f6c; }
+#signOutBtn .action_icon { font-size: 22px; }
+#signOutBtn .action_name { font-size: 11px; font-weight: 600; }
+
+/* ── Modal Overlay ── */
+.login-modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 9998;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+}
+.login-modal-overlay.active {
+    opacity: 1; visibility: visible;
+}
+
+/* ── Modal Box ── */
+.login-modal {
+    background: #fff;
+    border-radius: 8px;
+    width: 380px;
+    max-width: 95vw;
+    padding: 36px 32px;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform .3s;
+    box-shadow: 0 8px 40px rgba(0,0,0,.2);
+}
+.login-modal-overlay.active .login-modal {
+    transform: translateY(0);
+}
+
+/* Close */
+.modal-close {
+    position: absolute; top: 14px; right: 14px;
+    background: none; border: none;
+    font-size: 22px; color: #7e818c;
+    cursor: pointer; line-height: 1;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    transition: background .2s, color .2s;
+}
+.modal-close:hover { background: #f4f4f5; color: #282c3f; }
+
+/* Logo & Heading */
+.modal-logo {
+    display: flex; justify-content: center;
+    margin-bottom: 20px;
+}
+.modal-logo img { height: 36px; }
+.modal-title {
+    font-size: 20px; font-weight: 800;
+    color: #282c3f; text-align: center;
+    margin-bottom: 6px;
+}
+.modal-subtitle {
+    font-size: 13px; color: #7e818c;
+    text-align: center; margin-bottom: 28px;
+}
+
+/* Google Button */
+.btn-google-signin {
+    width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    gap: 12px;
+    background: #fff;
+    border: 2px solid #eaeaec;
+    border-radius: 4px;
+    padding: 13px 20px;
+    font-size: 15px; font-weight: 700;
+    color: #282c3f;
+    cursor: pointer;
+    transition: border-color .2s, box-shadow .2s;
+    margin-bottom: 16px;
+}
+.btn-google-signin:hover {
+    border-color: #4285f4;
+    box-shadow: 0 2px 8px rgba(66,133,244,.2);
+}
+.google-icon {
+    width: 22px; height: 22px;
+    flex-shrink: 0;
+}
+
+/* Divider */
+.modal-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 4px 0 20px;
+}
+.modal-divider::before,
+.modal-divider::after {
+    content: ''; flex: 1;
+    height: 1px; background: #eaeaec;
+}
+.modal-divider span { font-size: 12px; color: #94969f; white-space: nowrap; }
+
+/* Guest button */
+.btn-guest {
+    width: 100%;
+    background: transparent;
+    border: 1.5px solid #282c3f;
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 14px; font-weight: 700;
+    color: #282c3f; cursor: pointer;
+    transition: background .2s, color .2s;
+}
+.btn-guest:hover { background: #282c3f; color: #fff; }
+
+/* Error */
+#authError {
+    display: none;
+    background: #fff0f5;
+    border: 1px solid #ff3f6c;
+    color: #ff3f6c;
+    font-size: 12px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-top: 12px;
+    text-align: center;
+}
+
+/* Benefits list */
+.modal-benefits {
+    margin: 20px 0 0;
+    padding: 16px;
+    background: #f4f4f5;
+    border-radius: 4px;
+}
+.modal-benefits p {
+    font-size: 12px; font-weight: 700;
+    color: #282c3f; margin-bottom: 8px;
+    text-transform: uppercase; letter-spacing: .5px;
+}
+.modal-benefits ul {
+    list-style: none;
+    display: flex; flex-direction: column; gap: 6px;
+}
+.modal-benefits li {
+    font-size: 12px; color: #535766;
+    display: flex; align-items: center; gap: 6px;
+}
+.modal-benefits li::before {
+    content: '✓';
+    color: #03a685; font-weight: 700;
+}
