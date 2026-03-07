@@ -241,7 +241,7 @@ header {
 .item-image-wrap {
     position:relative; overflow:hidden;
     background:#f0f0f2;
-    width:100%; padding-top:133%; /* 3:4 ratio */
+    width:100%; padding-top:100%; /* 1:1 square */
 }
 .item-image {
     position:absolute; top:0; left:0;
@@ -262,47 +262,47 @@ header {
 .item-container:hover .discount-badge { opacity:1; }
 
 /* Card body */
-.item-body { padding:10px 12px 12px; }
+.item-body { padding:12px 14px 14px; }
 
-.rating { display:flex; align-items:center; gap:4px; margin-bottom:5px; }
+.rating { display:flex; align-items:center; gap:4px; margin-bottom:6px; }
 .rating-pill {
     display:inline-flex; align-items:center; gap:2px;
     background:var(--green); color:#fff;
-    font-size:11px; font-weight:700;
-    padding:2px 5px; border-radius:3px;
+    font-size:12px; font-weight:700;
+    padding:3px 6px; border-radius:3px;
 }
-.rating-pill .material-symbols-outlined { font-size:11px; }
-.rating-count { font-size:11px; color:var(--lgray); }
+.rating-pill .material-symbols-outlined { font-size:12px; }
+.rating-count { font-size:12px; color:var(--lgray); }
 
 .company-name {
-    font-size:14px; font-weight:700; color:var(--dark);
+    font-size:15px; font-weight:700; color:var(--dark);
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    margin-bottom:3px;
+    margin-bottom:4px;
 }
 .item-name {
-    font-size:12px; color:var(--gray);
+    font-size:13px; color:var(--gray);
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-    margin-bottom:7px;
+    margin-bottom:8px;
 }
 .price {
     display:flex; align-items:baseline;
-    flex-wrap:wrap; gap:4px; margin-bottom:10px;
+    flex-wrap:wrap; gap:5px; margin-bottom:12px;
 }
-.current-price { font-size:14px; font-weight:700; color:var(--dark); }
-.original-price { font-size:12px; color:var(--lgray); text-decoration:line-through; }
-.discount { font-size:12px; color:var(--orange); font-weight:600; }
+.current-price { font-size:15px; font-weight:700; color:var(--dark); }
+.original-price { font-size:13px; color:var(--lgray); text-decoration:line-through; }
+.discount { font-size:13px; color:var(--orange); font-weight:600; }
 
 .btn-add-bag {
     width:100%;
-    background:transparent; border:1.5px solid var(--pink);
-    color:var(--pink); font-size:12px; font-weight:700;
+    background:transparent; border:2px solid var(--pink);
+    color:var(--pink); font-size:13px; font-weight:700;
     letter-spacing:.5px; text-transform:uppercase;
-    padding:8px 0; border-radius:2px;
-    display:flex; align-items:center; justify-content:center; gap:5px;
+    padding:10px 0; border-radius:2px;
+    display:flex; align-items:center; justify-content:center; gap:6px;
     transition:background .2s, color .2s;
 }
 .btn-add-bag:hover { background:var(--pink); color:#fff; }
-.btn-add-bag .material-symbols-outlined { font-size:15px; }
+.btn-add-bag .material-symbols-outlined { font-size:16px; }
 .btn-add-bag.added { background:var(--pink); color:#fff; }
 
 /* ── FOOTER ── */
@@ -313,16 +313,16 @@ footer { background:#fff; border-top:1px solid var(--border); margin-top:32px; }
     gap:24px; padding:32px 60px 24px;
 }
 .footer_column h3 {
-    font-size:12px; font-weight:800;
+    font-size:13px; font-weight:800;
     letter-spacing:1px; text-transform:uppercase;
-    color:var(--dark); margin-bottom:14px;
+    color:var(--dark); margin-bottom:16px;
     padding-bottom:8px;
     border-bottom:2px solid var(--pink);
     display:inline-block;
 }
 .footer_column a {
-    display:block; font-size:13px;
-    color:var(--gray); padding:3px 0;
+    display:block; font-size:14px;
+    color:var(--gray); padding:4px 0;
     transition:color .2s, padding-left .2s;
 }
 .footer_column a:hover { color:var(--pink); padding-left:4px; }
