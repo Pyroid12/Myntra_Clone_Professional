@@ -1,5 +1,8 @@
 var bagItems = [];
 var wishlistItems = [];
+// Make global so firebase.js can update them
+window.bagItems = bagItems;
+window.wishlistItems = wishlistItems;
 var activeCategory = 'all';
 var sortOrder = 'default';
 
@@ -232,3 +235,43 @@ function sortByDiscount() {
     if (sel) sel.value = 'discount';
     renderProducts();
 }
+
+/* ── PWA Install Prompt ── */
+var deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    var banner = document.getElementById('pwaBanner');
+    if (banner) banner.style.display = 'flex';
+});
+
+window.addEventListener('appinstalled', function() {
+    var banner = document.getElementById('pwaBanner');
+    if (banner) banner.style.display = 'none';
+    showToast('App installed successfully! 🎉');
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var installBtn  = document.getElementById('pwaInstallBtn');
+    var dismissBtn  = document.getElementById('pwaDismissBtn');
+    var banner      = document.getElementById('pwaBanner');
+
+    if (installBtn) {
+        installBtn.addEventListener('click', function() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function(result) {
+                    if (result.outcome === 'accepted') showToast('Installing Myntra app... 🚀');
+                    deferredPrompt = null;
+                    if (banner) banner.style.display = 'none';
+                });
+            }
+        });
+    }
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', function() {
+            if (banner) banner.style.display = 'none';
+        });
+    }
+});
