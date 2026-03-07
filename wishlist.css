@@ -1,0 +1,203 @@
+/* ============================================================
+   MYNTRA CLONE — wishlist.css
+   ============================================================ */
+
+.wishlist-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 24px 60px;
+    min-height: calc(100vh - 64px - 160px);
+}
+
+/* Breadcrumb */
+.wl-breadcrumb {
+    font-size: 12px;
+    color: #94969f;
+    margin-bottom: 20px;
+}
+.wl-breadcrumb a {
+    color: #282c3f;
+    font-weight: 600;
+    text-decoration: none;
+}
+.wl-breadcrumb a:hover { color: #ff3f6c; }
+
+/* Header */
+.wl-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eaeaec;
+}
+.wl-header-left { display: flex; align-items: baseline; gap: 12px; }
+.wl-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #282c3f;
+}
+.wl-count {
+    font-size: 14px;
+    color: #7e818c;
+}
+.wl-clear-btn {
+    background: none;
+    border: 1px solid #d4d5d9;
+    color: #535766;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 20px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color .2s, color .2s;
+}
+.wl-clear-btn:hover { border-color: #ff3f6c; color: #ff3f6c; }
+
+/* Grid */
+.wl-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* Card */
+.wl-card {
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow .25s, transform .25s;
+    cursor: pointer;
+}
+.wl-card:hover {
+    box-shadow: 0 4px 20px rgba(0,0,0,.12);
+    transform: translateY(-3px);
+}
+
+/* Remove button */
+.wl-remove-btn {
+    position: absolute;
+    top: 8px; right: 8px;
+    z-index: 2;
+    background: rgba(255,255,255,.95);
+    border: none;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,.15);
+    cursor: pointer;
+    transition: background .2s;
+}
+.wl-remove-btn:hover { background: #fff0f5; }
+.wl-remove-btn .material-symbols-outlined { font-size: 17px; color: #ff3f6c; }
+
+/* Image */
+.wl-img-wrap {
+    position: relative;
+    width: 100%; padding-top: 100%;
+    background: #f0f0f2; overflow: hidden;
+}
+.wl-img {
+    position: absolute; top:0; left:0;
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top;
+    transition: transform .4s;
+}
+.wl-card:hover .wl-img { transform: scale(1.04); }
+
+/* Discount badge */
+.wl-discount-badge {
+    position: absolute;
+    top: 8px; left: 8px;
+    background: #ff3f6c;
+    color: #fff;
+    font-size: 11px; font-weight: 700;
+    padding: 3px 8px; border-radius: 2px;
+}
+
+/* Card body */
+.wl-body { padding: 12px 14px 14px; }
+
+.wl-rating {
+    display: flex; align-items: center; gap: 4px;
+    margin-bottom: 6px;
+}
+.wl-rating-pill {
+    display: inline-flex; align-items: center; gap: 2px;
+    background: #03a685; color: #fff;
+    font-size: 11px; font-weight: 700;
+    padding: 2px 6px; border-radius: 3px;
+}
+.wl-rating-pill .material-symbols-outlined { font-size: 11px; }
+.wl-rating-count { font-size: 11px; color: #7e818c; }
+
+.wl-brand {
+    font-size: 15px; font-weight: 700;
+    color: #282c3f;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-bottom: 3px;
+}
+.wl-name {
+    font-size: 13px; color: #535766;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    margin-bottom: 8px;
+}
+.wl-price {
+    display: flex; align-items: baseline;
+    gap: 5px; flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+.wl-current { font-size: 15px; font-weight: 700; color: #282c3f; }
+.wl-original { font-size: 13px; color: #7e818c; text-decoration: line-through; }
+.wl-off { font-size: 13px; color: #ff905a; font-weight: 600; }
+
+/* Buttons */
+.wl-actions { display: flex; gap: 8px; }
+.btn-wl-bag {
+    flex: 1;
+    background: #ff3f6c; color: #fff;
+    border: none; border-radius: 2px;
+    font-size: 13px; font-weight: 700;
+    letter-spacing: .5px; text-transform: uppercase;
+    padding: 10px 0;
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+    transition: opacity .2s;
+}
+.btn-wl-bag:hover { opacity: .88; }
+.btn-wl-bag .material-symbols-outlined { font-size: 16px; }
+.btn-wl-bag.added { background: #282c3f; }
+
+/* Empty State */
+.wl-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 24px;
+}
+.wl-empty-icon {
+    font-size: 80px;
+    color: #d4d5d9;
+    margin-bottom: 16px;
+}
+.wl-empty h2 {
+    font-size: 22px; font-weight: 700;
+    color: #282c3f; margin-bottom: 8px;
+}
+.wl-empty p {
+    font-size: 14px; color: #535766;
+    margin-bottom: 24px;
+}
+.btn-wl-shop {
+    background: #ff3f6c; color: #fff;
+    border: none; border-radius: 4px;
+    font-size: 14px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 14px 40px; cursor: pointer;
+    transition: opacity .2s;
+}
+.btn-wl-shop:hover { opacity: .9; }
+
+/* Responsive */
+@media (max-width: 1100px) { .wl-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px)  { .wl-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+@media (max-width: 480px)  { .wl-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } }
