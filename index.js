@@ -9,6 +9,7 @@ function onLoad() {
     loadFromStorage();
     renderProducts();
     updateBagIcon();
+    updateWishlistIcon();
     bindSearch();
     bindSort();
     bindCategories();
@@ -72,6 +73,17 @@ function updateBagIcon() {
     }
 }
 
+function updateWishlistIcon() {
+    var badge = document.getElementById('wishlist-count');
+    if (!badge) return;
+    if (wishlistItems.length > 0) {
+        badge.textContent = wishlistItems.length;
+        badge.style.visibility = 'visible';
+    } else {
+        badge.style.visibility = 'hidden';
+    }
+}
+
 function toggleWishlist(itemId) {
     var item = items.find(function(i) { return i.id == itemId; });
     if (!item) return;
@@ -84,6 +96,7 @@ function toggleWishlist(itemId) {
         showToast('Removed from Wishlist');
     }
     saveToStorage();
+    updateWishlistIcon();
     var btn = document.querySelector('[data-id="' + itemId + '"] .wishlist-btn');
     if (btn) {
         btn.classList.toggle('active', item.wishlist);
