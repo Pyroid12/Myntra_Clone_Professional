@@ -42,6 +42,7 @@ function loadFromStorage() {
 function saveToStorage() {
     localStorage.setItem('bagItems', JSON.stringify(bagItems));
     localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+    window.dispatchEvent(new Event('storage-update'));
 }
 
 function addToBag(itemId) {
