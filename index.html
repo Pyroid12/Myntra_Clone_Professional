@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntra – Fashion at its Best</title>
+    <link rel="stylesheet" href="/Myntra_Clone_Professional/css/index.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap">
+</head>
+<body>
+<header>
+    <div class="logo_container">
+        <a href="/Myntra_Clone_Professional/index.html"><img class="myntra_home" src="/Myntra_Clone_Professional/myntra_logo.webp" alt="Myntra Home"></a>
+    </div>
+    <nav class="nav_bar">
+        <a href="#" onclick="filterByNav(this,'men');return false;">Men</a>
+        <a href="#" onclick="filterByNav(this,'women');return false;">Women</a>
+        <a href="#" onclick="filterByNav(this,'kids');return false;">Kids</a>
+        <a href="#" onclick="filterByNav(this,'home');return false;">Home &amp; Living</a>
+        <a href="#" onclick="filterByNav(this,'beauty');return false;">Beauty</a>
+        <a href="#" onclick="filterByNav(this,'all');return false;">Studio <sup>New</sup></a>
+    </nav>
+    <div class="search_bar">
+        <span class="material-symbols-outlined search_icon">search</span>
+        <input class="search_input" type="text" placeholder="Search for products, brands and more" autocomplete="off">
+    </div>
+    <div class="action_bar">
+        <div class="action_container">
+            <span class="material-symbols-outlined action_icon">person</span>
+            <span class="action_name">Profile</span>
+        </div>
+        <div class="action_container">
+            <span class="material-symbols-outlined action_icon">favorite</span>
+            <span class="action_name">Wishlist</span>
+        </div>
+        <a class="action_container" href="/Myntra_Clone_Professional/pages/bag.html">
+            <span class="material-symbols-outlined action_icon">shopping_bag</span>
+            <span class="action_name">Bag</span>
+            <span class="bag-item-count" style="visibility:hidden;">0</span>
+        </a>
+    </div>
+</header>
+
+<section class="hero-banner">
+    <div class="hero-text">
+        <div class="hero-tag">✦ Exclusive Summer Collection</div>
+        <h1 class="hero-title">Big<br><span>Fashion</span><br>Sale</h1>
+        <p class="hero-subtitle">Up to 70% off on top brands</p>
+        <button class="hero-cta" onclick="document.querySelector('.items-section').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+    </div>
+    <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-num">5M+</span><span class="hero-stat-label">Products</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">6K+</span><span class="hero-stat-label">Brands</span></div>
+        <div class="hero-stat"><span class="hero-stat-num">19M+</span><span class="hero-stat-label">Customers</span></div>
+    </div>
+</section>
+
+<section class="categories-section">
+    <h2 class="section-heading">Shop by Category</h2>
+    <div class="categories-grid">
+        <div class="category-chip active" data-cat="all"><span class="category-icon">🛍️</span><span>All</span></div>
+        <div class="category-chip" data-cat="men"><span class="category-icon">👔</span><span>Men</span></div>
+        <div class="category-chip" data-cat="women"><span class="category-icon">👗</span><span>Women</span></div>
+        <div class="category-chip" data-cat="kids"><span class="category-icon">🧒</span><span>Kids</span></div>
+        <div class="category-chip" data-cat="beauty"><span class="category-icon">💄</span><span>Beauty</span></div>
+        <div class="category-chip" data-cat="jewellery"><span class="category-icon">💍</span><span>Jewellery</span></div>
+        <div class="category-chip" data-cat="home"><span class="category-icon">🏠</span><span>Home</span></div>
+    </div>
+</section>
+
+<div class="filter-bar">
+    <div class="filter-left">
+        <span class="filter-count">8 <span>items</span></span>
+        <div class="filter-chips">
+            <button class="filter-chip"><span class="material-symbols-outlined">tune</span> Filters</button>
+            <button class="filter-chip" onclick="sortByDiscount()"><span class="material-symbols-outlined">local_offer</span> Best Discount</button>
+        </div>
+    </div>
+    <select class="sort-select">
+        <option value="default">Sort: Recommended</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="discount">Best Discount</option>
+        <option value="rating">Top Rated</option>
+    </select>
+</div>
+
+<section class="items-section">
+    <div class="items-container"></div>
+</section>
+
+<footer>
+    <div class="footer-top">
+        <div class="footer_column">
+            <h3>Online Shopping</h3>
+            <a href="#">Men</a><a href="#">Women</a><a href="#">Kids</a>
+            <a href="#">Home &amp; Living</a><a href="#">Beauty</a><a href="#">Gift Cards</a>
+        </div>
+        <div class="footer_column">
+            <h3>Customer Policies</h3>
+            <a href="#">Contact Us</a><a href="#">FAQ</a><a href="#">T&amp;C</a>
+            <a href="#">Track Orders</a><a href="#">Shipping</a><a href="#">Returns</a>
+        </div>
+        <div class="footer_column">
+            <h3>About Us</h3>
+            <a href="#">About Myntra</a><a href="#">Careers</a><a href="#">Press</a>
+        </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">
+        <div class="copyright">© 2024 www.myntra.com. All rights reserved.</div>
+    </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="/Myntra_Clone_Professional/data/items.js"></script>
+<script src="/Myntra_Clone_Professional/scripts/index.js"></script>
+</body>
+</html>
