@@ -216,6 +216,7 @@ header {
     background:var(--white);
     border-radius:4px; overflow:hidden;
     cursor:pointer;
+    user-select:none;
     transition:box-shadow .25s, transform .25s;
     position:relative;
 }
