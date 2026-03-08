@@ -17,7 +17,8 @@ function onLoad() {
     bindSort();
     bindCategories();
     // Use event delegation - no inline onclick needed
-    document.querySelector('.items-container').addEventListener('click', handleCardClick);
+    var container = document.querySelector('.items-container');
+    if (container) container.addEventListener('click', handleCardClick);
 }
 
 function handleCardClick(e) {
@@ -27,14 +28,17 @@ function handleCardClick(e) {
 
     if (bagBtn) {
         e.stopPropagation();
-        var id = bagBtn.closest('.item-container').dataset.id;
-        addToBag(id);
-    } else if (wishBtn) {
+        e.preventDefault();
+        addToBag(bagBtn.closest('.item-container').dataset.id);
+        return;
+    }
+    if (wishBtn) {
         e.stopPropagation();
-        var id = wishBtn.closest('.item-container').dataset.id;
-        toggleWishlist(id);
-    } else if (card) {
-        // Open product detail page
+        e.preventDefault();
+        toggleWishlist(wishBtn.closest('.item-container').dataset.id);
+        return;
+    }
+    if (card) {
         window.location.href = '/Myntra_Clone_Professional/product.html?id=' + card.dataset.id;
     }
 }
