@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/Myntra_Clone_Professional/index.css">
     <link rel="stylesheet" href="/Myntra_Clone_Professional/wishlist.css">
     <link rel="stylesheet" href="/Myntra_Clone_Professional/auth.css">
+    <link rel="stylesheet" href="/Myntra_Clone_Professional/bottomnav.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;500;600;700;800&display=swap">
     <!-- PWA -->
@@ -121,5 +122,26 @@ if ("serviceWorker" in navigator) {
     });
 }
 </script>
+<!-- BOTTOM NAVIGATION (Mobile Only) -->
+<nav class="bottom-nav">
+    <a class="bn-item" href="/Myntra_Clone_Professional/index.html">
+        <span class="material-symbols-outlined">home</span>
+        <span>Home</span>
+    </a>
+    <a class="bn-item active" href="/Myntra_Clone_Professional/wishlist.html">
+        <span class="material-symbols-outlined">favorite</span>
+        <span>Wishlist</span>
+        <span class="bn-badge" id="bn-wish-count"></span>
+    </a>
+    <a class="bn-item" href="/Myntra_Clone_Professional/bag.html">
+        <span class="material-symbols-outlined">shopping_bag</span>
+        <span>Bag</span>
+        <span class="bn-badge" id="bn-bag-count"></span>
+    </a>
+    <button class="bn-item" onclick="openLoginModal()">
+        <span class="material-symbols-outlined" id="bn-profile-icon">person</span>
+        <span id="bn-profile-label">Profile</span>
+    </button>
+</nav>
 </body>
 </html>
