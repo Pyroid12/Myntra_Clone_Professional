@@ -3,7 +3,7 @@
    Caches all assets for offline use
    ============================================================ */
 
-const CACHE_NAME = 'myntra-cache-v1';
+const CACHE_NAME = 'myntra-cache-v3';
 
 const ASSETS_TO_CACHE = [
     '/Myntra_Clone_Professional/',
