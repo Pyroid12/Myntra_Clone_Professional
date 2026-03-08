@@ -86,6 +86,7 @@ function updateBagIcon() {
     } else {
         badge.style.visibility = 'hidden';
     }
+    updateBottomNavBadges();
 }
 
 function updateWishlistIcon() {
@@ -286,3 +287,30 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+/* ── Bottom Nav Badge Updates ── */
+function updateBottomNavBadges() {
+    var bagBadge  = document.getElementById('bn-bag-count');
+    var wishBadge = document.getElementById('bn-wish-count');
+    if (bagBadge) {
+        bagBadge.textContent = bagItems.length;
+        bagBadge.classList.toggle('visible', bagItems.length > 0);
+    }
+    if (wishBadge) {
+        wishBadge.textContent = wishlistItems.length;
+        wishBadge.classList.toggle('visible', wishlistItems.length > 0);
+    }
+}
+
+/* ── Update bottom nav profile on login ── */
+function updateBottomNavProfile(user) {
+    var icon  = document.getElementById('bn-profile-icon');
+    var label = document.getElementById('bn-profile-label');
+    if (user) {
+        if (icon)  icon.textContent  = 'account_circle';
+        if (label) label.textContent = user.displayName ? user.displayName.split(' ')[0] : 'You';
+    } else {
+        if (icon)  icon.textContent  = 'person';
+        if (label) label.textContent = 'Profile';
+    }
+}
