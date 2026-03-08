@@ -16,10 +16,17 @@ function initSplashScreen() {
     var splash = document.getElementById('splashScreen');
     if (!splash) return;
 
+    // If page already loaded before (returning visitor), skip splash
+    if (sessionStorage.getItem('splashShown')) {
+        if (splash.parentNode) splash.parentNode.removeChild(splash);
+        return;
+    }
+
+    sessionStorage.setItem('splashShown', 'true');
+
     // Hide after 1.8s
     setTimeout(function() {
         splash.classList.add('hidden');
-        // Remove from DOM after transition
         setTimeout(function() {
             if (splash.parentNode) splash.parentNode.removeChild(splash);
         }, 500);
