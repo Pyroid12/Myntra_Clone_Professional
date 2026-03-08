@@ -11,6 +11,7 @@ function onWishlistLoad() {
     loadFromStorage();
     renderWishlist();
     updateBagIcon();
+    if (typeof updateBottomNavBadges === "function") updateBottomNavBadges();
     bindClearAll();
 }
 
@@ -153,4 +154,18 @@ function showToast(msg) {
     toast.classList.add('show');
     clearTimeout(toast._t);
     toast._t = setTimeout(function() { toast.classList.remove('show'); }, 2500);
+}
+
+/* ── Bottom Nav Badges ── */
+function updateBottomNavBadges() {
+    var bagBadge  = document.getElementById('bn-bag-count');
+    var wishBadge = document.getElementById('bn-wish-count');
+    if (bagBadge) {
+        bagBadge.textContent = bagItems.length;
+        bagBadge.classList.toggle('visible', bagItems.length > 0);
+    }
+    if (wishBadge) {
+        wishBadge.textContent = wishlistItems.length;
+        wishBadge.classList.toggle('visible', wishlistItems.length > 0);
+    }
 }
