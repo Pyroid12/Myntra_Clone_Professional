@@ -1,0 +1,181 @@
+/* ============================================================
+   MYNTRA CLONE — uifeatures.css
+   Dark Mode + Card Animations + Back to Top + Splash Screen
+   ============================================================ */
+
+/* ══════════════════════════════════════
+   1. SPLASH SCREEN
+══════════════════════════════════════ */
+#splashScreen {
+    position: fixed;
+    inset: 0;
+    background: #fff;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    transition: opacity .5s ease, visibility .5s ease;
+}
+#splashScreen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+.splash-logo {
+    height: 80px;
+    animation: splashPulse 1s ease infinite alternate;
+}
+@keyframes splashPulse {
+    from { transform: scale(1);    opacity: .8; }
+    to   { transform: scale(1.08); opacity: 1;  }
+}
+.splash-tagline {
+    font-size: 15px;
+    font-weight: 600;
+    color: #535766;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+.splash-bar {
+    width: 160px;
+    height: 3px;
+    background: #eaeaec;
+    border-radius: 2px;
+    overflow: hidden;
+}
+.splash-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff3f6c, #ff905a);
+    border-radius: 2px;
+    animation: splashLoad 1.6s ease forwards;
+}
+@keyframes splashLoad {
+    from { width: 0%;   }
+    to   { width: 100%; }
+}
+
+/* ══════════════════════════════════════
+   2. DARK MODE
+══════════════════════════════════════ */
+body.dark-mode {
+    --pink:       #ff3f6c;
+    --pink-light: #2a1620;
+    --dark:       #f4f4f5;
+    --gray:       #c4c6cf;
+    --lgray:      #94969f;
+    --border:     #2e3043;
+    --bg:         #181a2a;
+    --white:      #1e2033;
+    background: #181a2a;
+    color: #f4f4f5;
+}
+body.dark-mode header          { background: #1e2033; box-shadow: 0 2px 8px rgba(0,0,0,.4); }
+body.dark-mode .search_bar     { background: #2a2d42; }
+body.dark-mode .search_input   { color: #f4f4f5; }
+body.dark-mode .nav_bar a      { color: #c4c6cf; }
+body.dark-mode .hero-banner    { background: linear-gradient(135deg,#c0294e,#c4622a,#c48a1a); }
+body.dark-mode .categories-section { background: #1e2033; border-color: #2e3043; }
+body.dark-mode .category-chip  { background: #2a2d42; }
+body.dark-mode .filter-bar     { background: #1e2033; border-color: #2e3043; }
+body.dark-mode .item-container { background: #1e2033; }
+body.dark-mode .item-body      { background: #1e2033; }
+body.dark-mode .company-name   { color: #f4f4f5; }
+body.dark-mode .item-name      { color: #94969f; }
+body.dark-mode .current-price  { color: #f4f4f5; }
+body.dark-mode footer          { background: #1e2033; border-color: #2e3043; }
+body.dark-mode .footer_column a { color: #94969f; }
+body.dark-mode .filter-chip    { background: #1e2033; border-color: #2e3043; color: #c4c6cf; }
+body.dark-mode .sort-select    { background: #1e2033; border-color: #2e3043; color: #f4f4f5; }
+body.dark-mode .bottom-nav     { background: #1e2033; border-color: #2e3043; }
+body.dark-mode .bn-item        { color: #7e818c; }
+body.dark-mode .login-modal    { background: #1e2033; }
+body.dark-mode .modal-title    { color: #f4f4f5; }
+body.dark-mode .btn-google-signin { background: #2a2d42; border-color: #3e4157; color: #f4f4f5; }
+body.dark-mode .btn-guest      { border-color: #f4f4f5; color: #f4f4f5; }
+body.dark-mode .modal-benefits { background: #2a2d42; }
+body.dark-mode .modal-benefits p { color: #f4f4f5; }
+body.dark-mode #splashScreen   { background: #181a2a; }
+body.dark-mode .splash-tagline { color: #94969f; }
+body.dark-mode .splash-bar     { background: #2e3043; }
+
+/* Dark mode toggle button */
+.dark-mode-btn {
+    background: none;
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark);
+    transition: background .2s, color .2s, border-color .2s;
+    flex-shrink: 0;
+}
+.dark-mode-btn:hover { border-color: var(--pink); color: var(--pink); }
+.dark-mode-btn .material-symbols-outlined { font-size: 18px; }
+
+/* ══════════════════════════════════════
+   3. ANIMATED PRODUCT CARDS
+══════════════════════════════════════ */
+.item-container {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: cardFadeIn .45s ease forwards;
+}
+@keyframes cardFadeIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+/* Stagger each card */
+.item-container:nth-child(1)  { animation-delay: .05s; }
+.item-container:nth-child(2)  { animation-delay: .10s; }
+.item-container:nth-child(3)  { animation-delay: .15s; }
+.item-container:nth-child(4)  { animation-delay: .20s; }
+.item-container:nth-child(5)  { animation-delay: .25s; }
+.item-container:nth-child(6)  { animation-delay: .30s; }
+.item-container:nth-child(7)  { animation-delay: .35s; }
+.item-container:nth-child(8)  { animation-delay: .40s; }
+
+/* ══════════════════════════════════════
+   4. BACK TO TOP BUTTON
+══════════════════════════════════════ */
+#backToTop {
+    position: fixed;
+    bottom: 90px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    background: var(--pink);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(255,63,108,.4);
+    z-index: 998;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    transition: opacity .3s, visibility .3s, transform .3s, box-shadow .2s;
+}
+#backToTop.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+#backToTop:hover {
+    box-shadow: 0 6px 20px rgba(255,63,108,.5);
+    transform: translateY(-2px);
+}
+#backToTop .material-symbols-outlined { font-size: 22px; }
+
+/* On desktop, position above normal bottom */
+@media (min-width: 769px) {
+    #backToTop { bottom: 32px; }
+}
