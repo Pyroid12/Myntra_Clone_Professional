@@ -21,14 +21,21 @@ function onLoad() {
 }
 
 function handleCardClick(e) {
-    var bagBtn = e.target.closest('.btn-add-bag');
+    var bagBtn  = e.target.closest('.btn-add-bag');
     var wishBtn = e.target.closest('.wishlist-btn');
+    var card    = e.target.closest('.item-container');
+
     if (bagBtn) {
+        e.stopPropagation();
         var id = bagBtn.closest('.item-container').dataset.id;
         addToBag(id);
     } else if (wishBtn) {
+        e.stopPropagation();
         var id = wishBtn.closest('.item-container').dataset.id;
         toggleWishlist(id);
+    } else if (card) {
+        // Open product detail page
+        window.location.href = '/Myntra_Clone_Professional/product.html?id=' + card.dataset.id;
     }
 }
 
