@@ -132,17 +132,95 @@
 <!-- ═══════════════════════════════
      HERO BANNER
 ═══════════════════════════════ -->
-<section class="hero-banner">
-    <div class="hero-text">
-        <div class="hero-tag">✦ Exclusive Summer Collection</div>
-        <h1 class="hero-title">Big<br><span>Fashion</span><br>Sale</h1>
-        <p class="hero-subtitle">Up to 70% off on top brands</p>
-        <button class="hero-cta" onclick="document.querySelector('.items-section').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+<!-- FLASH SALE COUNTDOWN -->
+<div class="flash-sale-bar">
+    <div class="flash-label"><span>⚡</span> Flash Sale Ends In:</div>
+    <div class="flash-timer">
+        <div class="flash-unit" id="fh">00</div>
+        <span class="flash-colon">:</span>
+        <div class="flash-unit" id="fm">00</div>
+        <span class="flash-colon">:</span>
+        <div class="flash-unit" id="fs">00</div>
     </div>
-    <div class="hero-stats">
-        <div class="hero-stat"><span class="hero-stat-num">5M+</span><span class="hero-stat-label">Products</span></div>
-        <div class="hero-stat"><span class="hero-stat-num">6K+</span><span class="hero-stat-label">Brands</span></div>
-        <div class="hero-stat"><span class="hero-stat-num">19M+</span><span class="hero-stat-label">Customers</span></div>
+    <button class="flash-shop-btn" onclick="document.querySelector('.items-section').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+</div>
+
+<!-- HERO BANNER SLIDER -->
+<section class="hero-slider" id="heroSlider">
+    <div class="hero-slides" id="heroSlides">
+
+        <!-- Slide 1 -->
+        <div class="hero-slide">
+            <div class="hero-text">
+                <div class="hero-tag">✦ Exclusive Summer Collection</div>
+                <h1 class="hero-title">Big<br><span>Fashion</span><br>Sale</h1>
+                <p class="hero-subtitle">Up to 70% off on top brands</p>
+                <button class="hero-cta" onclick="document.querySelector('.items-section').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="hero-stat-num">5M+</span><span class="hero-stat-label">Products</span></div>
+                <div class="hero-stat"><span class="hero-stat-num">6K+</span><span class="hero-stat-label">Brands</span></div>
+                <div class="hero-stat"><span class="hero-stat-num">19M+</span><span class="hero-stat-label">Customers</span></div>
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="hero-slide">
+            <div class="hero-text">
+                <div class="hero-tag">💜 New Arrivals</div>
+                <h1 class="hero-title">Fresh<br><span>Style</span><br>Drops</h1>
+                <p class="hero-subtitle">Latest trends from top designers</p>
+                <button class="hero-cta" onclick="document.querySelector('.items-section').scrollIntoView({behavior:'smooth'})">Explore Now</button>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="hero-stat-num">500+</span><span class="hero-stat-label">New Styles</span></div>
+                <div class="hero-stat"><span class="hero-stat-num">100+</span><span class="hero-stat-label">Designers</span></div>
+                <div class="hero-stat"><span class="hero-stat-num">Daily</span><span class="hero-stat-label">Updates</span></div>
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="hero-slide">
+            <div class="hero-text">
+                <div class="hero-tag">🌿 Sustainable Fashion</div>
+                <h1 class="hero-title">Eco<br><span>Friendly</span><br>Picks</h1>
+                <p class="hero-subtitle">Fashion that cares for the planet</p>
+                <button class="hero-cta" onclick="document.querySelector('.items-section').scrollIntoView({behavior:'smooth'})">Go Green</button>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="hero-stat-num">200+</span><span class="hero-stat-label">Eco Brands</span></div>
+                <div class="hero-stat"><span class="hero-stat-num">50%</span><span class="hero-stat-label">Recycled</span></div>
+                <div class="hero-stat"><span class="hero-stat-num">0%</span><span class="hero-stat-label">Compromise</span></div>
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="hero-slide">
+            <div class="hero-text">
+                <div class="hero-tag">🔥 End of Season</div>
+                <h1 class="hero-title">Mega<br><span>Clearance</span><br>Sale</h1>
+                <p class="hero-subtitle">Up to 80% off — limited stock!</p>
+                <button class="hero-cta" onclick="document.querySelector('.items-section').scrollIntoView({behavior:'smooth'})">Grab Now</button>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat"><span class="hero-stat-num">80%</span><span class="hero-stat-label">Max Off</span></div>
+                <div class="hero-stat"><span class="hero-stat-num">48hrs</span><span class="hero-stat-label">Only</span></div>
+                <div class="hero-stat"><span class="hero-stat-num">1000+</span><span class="hero-stat-label">Items</span></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Arrows -->
+    <button class="hero-arrow prev" id="heroPrev"><span class="material-symbols-outlined">chevron_left</span></button>
+    <button class="hero-arrow next" id="heroNext"><span class="material-symbols-outlined">chevron_right</span></button>
+
+    <!-- Dots -->
+    <div class="hero-dots">
+        <button class="hero-dot active" data-idx="0"></button>
+        <button class="hero-dot" data-idx="1"></button>
+        <button class="hero-dot" data-idx="2"></button>
+        <button class="hero-dot" data-idx="3"></button>
     </div>
 </section>
 
