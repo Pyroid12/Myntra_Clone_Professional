@@ -1,353 +1,354 @@
-/* ============================================================
-   MYNTRA CLONE — uifeatures.css
-   Dark Mode + Card Animations + Back to Top + Splash Screen
-   ============================================================ */
+var bagItems = [];
+var wishlistItems = [];
+// Make global so firebase.js can update them
+window.bagItems = bagItems;
+window.wishlistItems = wishlistItems;
+var activeCategory = 'all';
+var sortOrder = 'default';
 
-/* ══════════════════════════════════════
-   1. SPLASH SCREEN
-══════════════════════════════════════ */
-#splashScreen {
-    position: fixed;
-    inset: 0;
-    background: #fff;
-    z-index: 99999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    transition: opacity .5s ease, visibility .5s ease;
-}
-#splashScreen.hidden {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-}
-.splash-logo {
-    height: 80px;
-    animation: splashPulse 1s ease infinite alternate;
-}
-@keyframes splashPulse {
-    from { transform: scale(1);    opacity: .8; }
-    to   { transform: scale(1.08); opacity: 1;  }
-}
-.splash-tagline {
-    font-size: 15px;
-    font-weight: 600;
-    color: #535766;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-}
-.splash-bar {
-    width: 160px;
-    height: 3px;
-    background: #eaeaec;
-    border-radius: 2px;
-    overflow: hidden;
-}
-.splash-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #ff3f6c, #ff905a);
-    border-radius: 2px;
-    animation: splashLoad 1.6s ease forwards;
-}
-@keyframes splashLoad {
-    from { width: 0%;   }
-    to   { width: 100%; }
+window.addEventListener('DOMContentLoaded', onLoad);
+
+/* ── Skeleton Loading ── */
+function showSkeletons() {
+    var section = document.querySelector('.items-section');
+    if (!section) return;
+
+    var skeletonHTML = '<div class="skeleton-grid" id="skeletonGrid">';
+    for (var i = 0; i < 8; i++) {
+        skeletonHTML +=
+            '<div class="skeleton-card">' +
+                '<div class="skeleton-img"><div class="skeleton-box"></div></div>' +
+                '<div class="skeleton-body">' +
+                    '<div class="skeleton-line short skeleton-box"></div>' +
+                    '<div class="skeleton-line medium skeleton-box"></div>' +
+                    '<div class="skeleton-line long skeleton-box"></div>' +
+                    '<div class="skeleton-line price skeleton-box"></div>' +
+                    '<div class="skeleton-btn skeleton-box"></div>' +
+                '</div>' +
+            '</div>';
+    }
+    skeletonHTML += '</div>';
+
+    // Hide real grid, show skeleton
+    var container = document.querySelector('.items-container');
+    if (container) container.style.display = 'none';
+    section.insertAdjacentHTML('afterbegin', skeletonHTML);
 }
 
-/* ══════════════════════════════════════
-   2. DARK MODE
-══════════════════════════════════════ */
-body.dark-mode {
-    --pink:       #ff3f6c;
-    --pink-light: #2a1620;
-    --dark:       #f4f4f5;
-    --gray:       #c4c6cf;
-    --lgray:      #94969f;
-    --border:     #2e3043;
-    --bg:         #181a2a;
-    --white:      #1e2033;
-    background: #181a2a;
-    color: #f4f4f5;
-}
-body.dark-mode header          { background: #1e2033; box-shadow: 0 2px 8px rgba(0,0,0,.4); }
-body.dark-mode .search_bar     { background: #2a2d42; }
-body.dark-mode .search_input   { color: #f4f4f5; }
-body.dark-mode .nav_bar a      { color: #c4c6cf; }
-body.dark-mode .hero-banner    { background: linear-gradient(135deg,#c0294e,#c4622a,#c48a1a); }
-body.dark-mode .categories-section { background: #1e2033; border-color: #2e3043; }
-body.dark-mode .category-chip  { background: #2a2d42; }
-body.dark-mode .filter-bar     { background: #1e2033; border-color: #2e3043; }
-body.dark-mode .item-container { background: #1e2033; }
-body.dark-mode .item-body      { background: #1e2033; }
-body.dark-mode .company-name   { color: #f4f4f5; }
-body.dark-mode .item-name      { color: #94969f; }
-body.dark-mode .current-price  { color: #f4f4f5; }
-body.dark-mode footer          { background: #1e2033; border-color: #2e3043; }
-body.dark-mode .footer_column a { color: #94969f; }
-body.dark-mode .filter-chip    { background: #1e2033; border-color: #2e3043; color: #c4c6cf; }
-body.dark-mode .sort-select    { background: #1e2033; border-color: #2e3043; color: #f4f4f5; }
-body.dark-mode .bottom-nav     { background: #1e2033; border-color: #2e3043; }
-body.dark-mode .bn-item        { color: #7e818c; }
-body.dark-mode .login-modal    { background: #1e2033; }
-body.dark-mode .modal-title    { color: #f4f4f5; }
-body.dark-mode .btn-google-signin { background: #2a2d42; border-color: #3e4157; color: #f4f4f5; }
-body.dark-mode .btn-guest      { border-color: #f4f4f5; color: #f4f4f5; }
-body.dark-mode .modal-benefits { background: #2a2d42; }
-body.dark-mode .modal-benefits p { color: #f4f4f5; }
-body.dark-mode #splashScreen   { background: #181a2a; }
-body.dark-mode .splash-tagline { color: #94969f; }
-body.dark-mode .splash-bar     { background: #2e3043; }
-
-/* Dark mode toggle button */
-.dark-mode-btn {
-    background: none;
-    border: 1.5px solid var(--border);
-    border-radius: 20px;
-    padding: 5px 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--dark);
-    transition: background .2s, color .2s, border-color .2s;
-    flex-shrink: 0;
-}
-.dark-mode-btn:hover { border-color: var(--pink); color: var(--pink); }
-.dark-mode-btn .material-symbols-outlined { font-size: 18px; }
-
-/* ══════════════════════════════════════
-   3. ANIMATED PRODUCT CARDS
-══════════════════════════════════════ */
-.item-container {
-    opacity: 0;
-    transform: translateY(24px);
-    animation: cardFadeIn .45s ease forwards;
-}
-@keyframes cardFadeIn {
-    to { opacity: 1; transform: translateY(0); }
-}
-/* Stagger each card */
-.item-container:nth-child(1)  { animation-delay: .05s; }
-.item-container:nth-child(2)  { animation-delay: .10s; }
-.item-container:nth-child(3)  { animation-delay: .15s; }
-.item-container:nth-child(4)  { animation-delay: .20s; }
-.item-container:nth-child(5)  { animation-delay: .25s; }
-.item-container:nth-child(6)  { animation-delay: .30s; }
-.item-container:nth-child(7)  { animation-delay: .35s; }
-.item-container:nth-child(8)  { animation-delay: .40s; }
-
-/* ══════════════════════════════════════
-   4. BACK TO TOP BUTTON
-══════════════════════════════════════ */
-#backToTop {
-    position: fixed;
-    bottom: 90px;
-    right: 24px;
-    width: 44px;
-    height: 44px;
-    background: var(--pink);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(255,63,108,.4);
-    z-index: 998;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(12px);
-    transition: opacity .3s, visibility .3s, transform .3s, box-shadow .2s;
-}
-#backToTop.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-#backToTop:hover {
-    box-shadow: 0 6px 20px rgba(255,63,108,.5);
-    transform: translateY(-2px);
-}
-#backToTop .material-symbols-outlined { font-size: 22px; }
-
-/* On desktop, position above normal bottom */
-@media (min-width: 769px) {
-    #backToTop { bottom: 32px; }
+function hideSkeletons() {
+    var skeleton = document.getElementById('skeletonGrid');
+    if (skeleton) skeleton.remove();
+    var container = document.querySelector('.items-container');
+    if (container) container.style.display = 'grid';
 }
 
-/* ══════════════════════════════════════
-   FLASH SALE COUNTDOWN TIMER
-══════════════════════════════════════ */
-.flash-sale-bar {
-    background: linear-gradient(90deg, #282c3f, #ff3f6c, #282c3f);
-    background-size: 200% 100%;
-    animation: flashBarMove 4s linear infinite;
-    color: #fff;
-    text-align: center;
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: .5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-@keyframes flashBarMove {
-    0%   { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
-}
-.flash-sale-bar .flash-label {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 14px;
-}
-.flash-sale-bar .flash-label span { font-size: 18px; }
-.flash-timer {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.flash-unit {
-    background: rgba(255,255,255,.15);
-    border: 1px solid rgba(255,255,255,.3);
-    border-radius: 4px;
-    padding: 4px 10px;
-    font-size: 18px;
-    font-weight: 800;
-    min-width: 44px;
-    text-align: center;
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-}
-.flash-colon {
-    font-size: 18px;
-    font-weight: 800;
-    animation: flashColon 1s step-end infinite;
-}
-@keyframes flashColon {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-}
-.flash-sale-bar .flash-shop-btn {
-    background: #fff;
-    color: #ff3f6c;
-    border: none;
-    border-radius: 20px;
-    padding: 5px 16px;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: .5px;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: transform .2s;
-}
-.flash-sale-bar .flash-shop-btn:hover { transform: scale(1.05); }
 
-/* ══════════════════════════════════════
-   HERO BANNER SLIDER
-══════════════════════════════════════ */
-.hero-slider {
-    position: relative;
-    overflow: hidden;
-}
-.hero-slides {
-    display: flex;
-    transition: transform .6s cubic-bezier(.77,0,.18,1);
-}
-.hero-slide {
-    min-width: 100%;
-    padding: 40px 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    overflow: hidden;
-}
-.hero-slide:nth-child(1) { background: linear-gradient(135deg,#ff3f6c,#ff905a,#ffbc57); }
-.hero-slide:nth-child(2) { background: linear-gradient(135deg,#667eea,#764ba2,#f093fb); }
-.hero-slide:nth-child(3) { background: linear-gradient(135deg,#11998e,#38ef7d,#a8edea); }
-.hero-slide:nth-child(4) { background: linear-gradient(135deg,#fc4a1a,#f7b733,#f093fb); }
-
-/* Slider dots */
-.hero-dots {
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 2;
-}
-.hero-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: rgba(255,255,255,.5);
-    cursor: pointer;
-    transition: background .3s, transform .3s;
-    border: none;
-    padding: 0;
-}
-.hero-dot.active {
-    background: #fff;
-    transform: scale(1.3);
+function onLoad() {
+    showSkeletons();
+    loadFromStorage();
+    setTimeout(function() {
+        hideSkeletons();
+        renderProducts();
+        updateBagIcon();
+        updateWishlistIcon();
+        bindSearch();
+        bindSort();
+        bindCategories();
+        var container = document.querySelector('.items-container');
+        if (container) container.addEventListener('click', handleCardClick);
+    }, 800); // 800ms skeleton show time
 }
 
-/* Slider arrows */
-.hero-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,.25);
-    border: none;
-    color: #fff;
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 2;
-    transition: background .2s;
-    backdrop-filter: blur(4px);
-}
-.hero-arrow:hover { background: rgba(255,255,255,.4); }
-.hero-arrow.prev { left: 16px; }
-.hero-arrow.next { right: 16px; }
-.hero-arrow .material-symbols-outlined { font-size: 22px; }
+function handleCardClick(e) {
+    var bagBtn  = e.target.closest('.btn-add-bag');
+    var wishBtn = e.target.closest('.wishlist-btn');
+    var card    = e.target.closest('.item-container');
 
-@media (max-width: 768px) {
-    .hero-slide { padding: 28px 20px; flex-direction: column; gap: 16px; text-align: center; }
-    .hero-arrow { display: none; }
+    if (bagBtn) {
+        e.stopPropagation();
+        e.preventDefault();
+        addToBag(bagBtn.closest('.item-container').dataset.id);
+        return;
+    }
+    if (wishBtn) {
+        e.stopPropagation();
+        e.preventDefault();
+        toggleWishlist(wishBtn.closest('.item-container').dataset.id);
+        return;
+    }
+    if (card) {
+        window.location.href = '/Myntra_Clone_Professional/product.html?id=' + card.dataset.id;
+    }
 }
 
-/* ══════════════════════════════════════
-   CONFETTI
-══════════════════════════════════════ */
-.confetti-container {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 99998;
-    overflow: hidden;
+function loadFromStorage() {
+    try {
+        bagItems = JSON.parse(localStorage.getItem('bagItems') || '[]');
+        wishlistItems = JSON.parse(localStorage.getItem('wishlistItems') || '[]');
+        items.forEach(function(item) {
+            item.wishlist = wishlistItems.indexOf(item.id) !== -1;
+        });
+    } catch(e) { bagItems = []; wishlistItems = []; }
 }
-.confetti-piece {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    top: -10px;
-    border-radius: 2px;
-    animation: confettiFall linear forwards;
+
+function saveToStorage() {
+    localStorage.setItem('bagItems', JSON.stringify(bagItems));
+    localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems));
+    window.dispatchEvent(new Event('storage-update'));
 }
-@keyframes confettiFall {
-    0%   { transform: translateY(0)      rotate(0deg)   scaleX(1); opacity: 1; }
-    50%  { transform: translateY(50vh)   rotate(360deg) scaleX(-1); opacity: 1; }
-    100% { transform: translateY(105vh)  rotate(720deg) scaleX(1); opacity: 0; }
+
+function addToBag(itemId) {
+    var alreadyIn = bagItems.some(function(id) { return id == itemId; });
+    if (!alreadyIn) {
+        bagItems.push(itemId);
+        saveToStorage();
+        updateBagIcon();
+        var item = items.find(function(i) { return i.id == itemId; });
+        showToast('Added to Bag — ' + (item ? item.company : 'Item'));
+        var btn = document.querySelector('[data-id="' + itemId + '"] .btn-add-bag');
+        if (btn) {
+            btn.classList.add('added');
+            btn.innerHTML = '<span class="material-symbols-outlined">check</span> Added';
+        }
+    } else {
+        showToast('Already in your bag!');
+    }
+}
+
+function updateBagIcon() {
+    var badge = document.querySelector('.bag-item-count');
+    if (!badge) return;
+    if (bagItems.length > 0) {
+        badge.textContent = bagItems.length;
+        badge.style.visibility = 'visible';
+    } else {
+        badge.style.visibility = 'hidden';
+    }
+    updateBottomNavBadges();
+}
+
+function updateWishlistIcon() {
+    var badge = document.getElementById('wishlist-count');
+    if (!badge) return;
+    if (wishlistItems.length > 0) {
+        badge.textContent = wishlistItems.length;
+        badge.style.visibility = 'visible';
+    } else {
+        badge.style.visibility = 'hidden';
+    }
+}
+
+function toggleWishlist(itemId) {
+    var item = items.find(function(i) { return i.id == itemId; });
+    if (!item) return;
+    item.wishlist = !item.wishlist;
+    if (item.wishlist) {
+        if (wishlistItems.indexOf(itemId) === -1) wishlistItems.push(itemId);
+        showToast('Added to Wishlist');
+    } else {
+        wishlistItems = wishlistItems.filter(function(id) { return id != itemId; });
+        showToast('Removed from Wishlist');
+    }
+    saveToStorage();
+    updateWishlistIcon();
+    var btn = document.querySelector('[data-id="' + itemId + '"] .wishlist-btn');
+    if (btn) {
+        btn.classList.toggle('active', item.wishlist);
+        btn.querySelector('.material-symbols-outlined').textContent = item.wishlist ? 'favorite' : 'favorite_border';
+    }
+}
+
+function showToast(message) {
+    var toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.innerHTML = '<span class="material-symbols-outlined">check_circle</span> ' + message;
+    toast.classList.add('show');
+    clearTimeout(toast._timer);
+    toast._timer = setTimeout(function() { toast.classList.remove('show'); }, 2500);
+}
+
+function renderProducts() {
+    var container = document.querySelector('.items-container');
+    if (!container) return;
+
+    var filtered = items.slice();
+
+    if (activeCategory !== 'all') {
+        filtered = filtered.filter(function(item) { return item.category === activeCategory; });
+    }
+
+    var searchInput = document.querySelector('.search_input');
+    var searchVal = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    if (searchVal) {
+        filtered = filtered.filter(function(item) {
+            return item.company.toLowerCase().indexOf(searchVal) !== -1 ||
+                   item.item_name.toLowerCase().indexOf(searchVal) !== -1 ||
+                   (item.category || '').toLowerCase().indexOf(searchVal) !== -1;
+        });
+    }
+
+    if (sortOrder === 'price-asc') filtered.sort(function(a,b){ return a.current_price - b.current_price; });
+    else if (sortOrder === 'price-desc') filtered.sort(function(a,b){ return b.current_price - a.current_price; });
+    else if (sortOrder === 'discount') filtered.sort(function(a,b){ return b.discount_percentage - a.discount_percentage; });
+    else if (sortOrder === 'rating') filtered.sort(function(a,b){ return b.rating.stars - a.rating.stars; });
+
+    var countEl = document.querySelector('.filter-count');
+    if (countEl) countEl.innerHTML = filtered.length + ' <span>items</span>';
+
+    if (filtered.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="material-symbols-outlined empty-icon">search_off</div><div class="empty-title">No products found</div><div class="empty-sub">Try a different search or category</div></div>';
+        return;
+    }
+
+    var html = '';
+    filtered.forEach(function(item) { html += generateItemHTML(item); });
+    container.innerHTML = html;
+}
+
+function generateItemHTML(item) {
+    var inBag = bagItems.some(function(id) { return id == item.id; });
+
+    var ratingHTML = item.rating.count > 0
+        ? '<span class="rating-pill"><span class="material-symbols-outlined">star</span>' + item.rating.stars + '</span>'
+          + '<span class="rating-count">(' + item.rating.count.toLocaleString() + ')</span>'
+        : '<span class="rating-count" style="color:#94969f">No ratings yet</span>';
+
+    var discountHTML = item.discount_percentage > 0
+        ? '<span class="original-price">&#8377;' + item.original_price.toLocaleString() + '</span>'
+          + '<span class="discount">(' + item.discount_percentage + '% OFF)</span>'
+        : '';
+
+    var discountBadge = item.discount_percentage > 0
+        ? '<div class="discount-badge">' + item.discount_percentage + '% OFF</div>'
+        : '';
+
+    var bagBtnHTML = inBag
+        ? '<button class="btn-add-bag added"><span class="material-symbols-outlined">check</span> Added</button>'
+        : '<button class="btn-add-bag"><span class="material-symbols-outlined">shopping_bag</span> Add to Bag</button>';
+
+    var wishIcon = item.wishlist ? 'favorite' : 'favorite_border';
+    var wishActive = item.wishlist ? 'active' : '';
+
+    var html = '<div class="item-container" data-id="' + item.id + '">';
+    html += '<button class="wishlist-btn ' + wishActive + '">';
+    html += '<span class="material-symbols-outlined">' + wishIcon + '</span></button>';
+    html += '<div class="item-image-wrap">';
+    html += '<img class="item-image" src="/Myntra_Clone_Professional/' + item.image + '" alt="' + item.item_name + '" loading="lazy">';
+    html += discountBadge + '</div>';
+    html += '<div class="item-body">';
+    html += '<div class="rating">' + ratingHTML + '</div>';
+    html += '<div class="company-name">' + item.company + '</div>';
+    html += '<div class="item-name">' + item.item_name + '</div>';
+    html += '<div class="price"><span class="current-price">&#8377;' + item.current_price.toLocaleString() + '</span>' + discountHTML + '</div>';
+    html += bagBtnHTML;
+    html += '</div></div>';
+    return html;
+}
+
+function bindSearch() {
+    var input = document.querySelector('.search_input');
+    if (!input) return;
+    var timer;
+    input.addEventListener('input', function() { clearTimeout(timer); timer = setTimeout(renderProducts, 300); });
+}
+
+function bindSort() {
+    var sel = document.querySelector('.sort-select');
+    if (!sel) return;
+    sel.addEventListener('change', function(e) { sortOrder = e.target.value; renderProducts(); });
+}
+
+function bindCategories() {
+    document.querySelectorAll('.category-chip').forEach(function(chip) {
+        chip.addEventListener('click', function() {
+            document.querySelectorAll('.category-chip').forEach(function(c) { c.classList.remove('active'); });
+            chip.classList.add('active');
+            activeCategory = chip.dataset.cat;
+            renderProducts();
+        });
+    });
+}
+
+function filterByNav(el, cat) {
+    activeCategory = cat;
+    document.querySelectorAll('.category-chip').forEach(function(c) {
+        c.classList.toggle('active', c.dataset.cat === cat);
+    });
+    renderProducts();
+    var section = document.querySelector('.items-section');
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
+}
+
+function sortByDiscount() {
+    sortOrder = 'discount';
+    var sel = document.querySelector('.sort-select');
+    if (sel) sel.value = 'discount';
+    renderProducts();
+}
+
+/* ── PWA Install Prompt ── */
+var deferredPrompt = null;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+    e.preventDefault();
+    deferredPrompt = e;
+    var banner = document.getElementById('pwaBanner');
+    if (banner) banner.style.display = 'flex';
+});
+
+window.addEventListener('appinstalled', function() {
+    var banner = document.getElementById('pwaBanner');
+    if (banner) banner.style.display = 'none';
+    showToast('App installed successfully! 🎉');
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    var installBtn  = document.getElementById('pwaInstallBtn');
+    var dismissBtn  = document.getElementById('pwaDismissBtn');
+    var banner      = document.getElementById('pwaBanner');
+
+    if (installBtn) {
+        installBtn.addEventListener('click', function() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(function(result) {
+                    if (result.outcome === 'accepted') showToast('Installing Myntra app... 🚀');
+                    deferredPrompt = null;
+                    if (banner) banner.style.display = 'none';
+                });
+            }
+        });
+    }
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', function() {
+            if (banner) banner.style.display = 'none';
+        });
+    }
+});
+
+/* ── Bottom Nav Badge Updates ── */
+function updateBottomNavBadges() {
+    var bagBadge  = document.getElementById('bn-bag-count');
+    var wishBadge = document.getElementById('bn-wish-count');
+    if (bagBadge) {
+        bagBadge.textContent = bagItems.length;
+        bagBadge.classList.toggle('visible', bagItems.length > 0);
+    }
+    if (wishBadge) {
+        wishBadge.textContent = wishlistItems.length;
+        wishBadge.classList.toggle('visible', wishlistItems.length > 0);
+    }
+}
+
+/* ── Update bottom nav profile on login ── */
+function updateBottomNavProfile(user) {
+    var icon  = document.getElementById('bn-profile-icon');
+    var label = document.getElementById('bn-profile-label');
+    if (user) {
+        if (icon)  icon.textContent  = 'account_circle';
+        if (label) label.textContent = user.displayName ? user.displayName.split(' ')[0] : 'You';
+    } else {
+        if (icon)  icon.textContent  = 'person';
+        if (label) label.textContent = 'Profile';
+    }
 }
