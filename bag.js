@@ -196,8 +196,12 @@ function renderBagSummary() {
 function placeOrder() {
     if (bagItemObjects.length === 0) { showBagToast('Your bag is empty!'); return; }
     localStorage.removeItem('bagItems');
-    showBagToast('Order placed successfully!');
-    setTimeout(function() { window.location.href='/Myntra_Clone_Professional/index.html'; }, 1800);
+
+    // 🎉 Launch confetti!
+    if (typeof window.launchConfetti === 'function') window.launchConfetti();
+
+    showBagToast('🎉 Order Placed Successfully!');
+    setTimeout(function() { window.location.href='/Myntra_Clone_Professional/index.html'; }, 3000);
 }
 
 function showBagToast(msg) {
