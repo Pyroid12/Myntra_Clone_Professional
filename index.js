@@ -8,17 +8,55 @@ var sortOrder = 'default';
 
 window.addEventListener('DOMContentLoaded', onLoad);
 
-function onLoad() {
-    loadFromStorage();
-    renderProducts();
-    updateBagIcon();
-    updateWishlistIcon();
-    bindSearch();
-    bindSort();
-    bindCategories();
-    // Use event delegation - no inline onclick needed
+/* ── Skeleton Loading ── */
+function showSkeletons() {
+    var section = document.querySelector('.items-section');
+    if (!section) return;
+
+    var skeletonHTML = '<div class="skeleton-grid" id="skeletonGrid">';
+    for (var i = 0; i < 8; i++) {
+        skeletonHTML +=
+            '<div class="skeleton-card">' +
+                '<div class="skeleton-img"><div class="skeleton-box"></div></div>' +
+                '<div class="skeleton-body">' +
+                    '<div class="skeleton-line short skeleton-box"></div>' +
+                    '<div class="skeleton-line medium skeleton-box"></div>' +
+                    '<div class="skeleton-line long skeleton-box"></div>' +
+                    '<div class="skeleton-line price skeleton-box"></div>' +
+                    '<div class="skeleton-btn skeleton-box"></div>' +
+                '</div>' +
+            '</div>';
+    }
+    skeletonHTML += '</div>';
+
+    // Hide real grid, show skeleton
     var container = document.querySelector('.items-container');
-    if (container) container.addEventListener('click', handleCardClick);
+    if (container) container.style.display = 'none';
+    section.insertAdjacentHTML('afterbegin', skeletonHTML);
+}
+
+function hideSkeletons() {
+    var skeleton = document.getElementById('skeletonGrid');
+    if (skeleton) skeleton.remove();
+    var container = document.querySelector('.items-container');
+    if (container) container.style.display = 'grid';
+}
+
+
+function onLoad() {
+    showSkeletons();
+    loadFromStorage();
+    setTimeout(function() {
+        hideSkeletons();
+        renderProducts();
+        updateBagIcon();
+        updateWishlistIcon();
+        bindSearch();
+        bindSort();
+        bindCategories();
+        var container = document.querySelector('.items-container');
+        if (container) container.addEventListener('click', handleCardClick);
+    }, 800); // 800ms skeleton show time
 }
 
 function handleCardClick(e) {
