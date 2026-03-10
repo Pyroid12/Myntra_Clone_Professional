@@ -195,13 +195,51 @@ function renderBagSummary() {
 
 function placeOrder() {
     if (bagItemObjects.length === 0) { showBagToast('Your bag is empty!'); return; }
+
+    // ── Save order to history ──
+    var subtotal = bagItemObjects.reduce(function(sum, item) {
+        return sum + (item.current_price * (quantities[item.id] || 1));
+    }, 0);
+    var discount = appliedCoupon ? Math.round(subtotal * COUPON_CODES[appliedCoupon]) : 0;
+    var total    = subtotal - discount + (subtotal >= 999 ? 0 : CONVENIENCE_FEE);
+
+    var statuses = ['Delivered', 'Processing', 'Shipped', 'Delivered', 'Delivered'];
+    var randomStatus = statuses[Math.floor(Math.random() * statuses.length)];
+
+    var order = {
+        id:     Date.now().toString().slice(-6),
+        date:   new Date().toISOString(),
+        status: randomStatus,
+        total:  total,
+        coupon: appliedCoupon,
+        items:  bagItemObjects.map(function(item) {
+            return {
+                id:           item.id,
+                image:        item.image,
+                company:      item.company,
+                item_name:    item.item_name,
+                current_price: item.current_price,
+                return_period: item.return_period,
+                selectedSize: item.sizes ? item.sizes[0] : 'M',
+                qty:          quantities[item.id] || 1
+            };
+        })
+    };
+
+    // Save to localStorage
+    var history = [];
+    try { history = JSON.parse(localStorage.getItem('orderHistory') || '[]'); } catch(e) {}
+    history.push(order);
+    localStorage.setItem('orderHistory', JSON.stringify(history));
+
+    // Clear bag
     localStorage.removeItem('bagItems');
 
     // 🎉 Launch confetti!
     if (typeof window.launchConfetti === 'function') window.launchConfetti();
 
-    showBagToast('🎉 Order Placed Successfully!');
-    setTimeout(function() { window.location.href='/Myntra_Clone_Professional/index.html'; }, 3000);
+    showBagToast('🎉 Order #' + order.id + ' Placed Successfully!');
+    setTimeout(function() { window.location.href='/Myntra_Clone_Professional/orders.html'; }, 3000);
 }
 
 function showBagToast(msg) {
