@@ -446,3 +446,157 @@
     .pd-brand { font-size: 18px; }
     .pd-current-price { font-size: 22px; }
 }
+
+/* ============================================================
+   SHARE MODAL — Web Share API fallback
+   ============================================================ */
+.share-modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.55);
+    z-index: 9999;
+    display: flex; align-items: flex-end; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+}
+.share-modal-overlay.open { opacity: 1; visibility: visible; }
+
+.share-modal {
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    padding: 0 0 32px;
+    width: 100%; max-width: 520px;
+    transform: translateY(100%);
+    transition: transform .35s cubic-bezier(.34,1.2,.64,1);
+}
+.share-modal-overlay.open .share-modal { transform: translateY(0); }
+body.dark-mode .share-modal { background: #1e2033; }
+
+/* Handle bar */
+.share-handle {
+    width: 40px; height: 4px;
+    background: #d4d5d9; border-radius: 2px;
+    margin: 12px auto 0;
+}
+
+.share-modal-title {
+    font-size: 14px; font-weight: 700;
+    color: #7e818c; text-align: center;
+    padding: 14px 20px 0;
+    letter-spacing: .5px; text-transform: uppercase;
+}
+
+/* Product preview card inside modal */
+.share-product-preview {
+    display: flex; align-items: center; gap: 14px;
+    margin: 16px 20px;
+    padding: 14px;
+    background: #f4f4f5;
+    border-radius: 12px;
+    border: 1px solid #eaeaec;
+}
+body.dark-mode .share-product-preview { background: #2a2d42; border-color: #3e4157; }
+
+.share-product-preview img {
+    width: 64px; height: 76px;
+    object-fit: cover; object-position: top;
+    border-radius: 8px; flex-shrink: 0;
+}
+.share-preview-info { flex: 1; min-width: 0; }
+.share-preview-brand {
+    font-size: 13px; font-weight: 800; color: #282c3f;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+body.dark-mode .share-preview-brand { color: #f4f4f5; }
+.share-preview-name {
+    font-size: 12px; color: #535766; margin: 2px 0 6px;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+}
+.share-preview-price { font-size: 15px; font-weight: 800; color: #ff3f6c; }
+.share-preview-original {
+    font-size: 12px; color: #94969f;
+    text-decoration: line-through; margin-left: 6px;
+}
+.share-preview-discount {
+    font-size: 12px; color: #ff905a; font-weight: 700;
+}
+
+/* Share options grid */
+.share-options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    padding: 4px 16px 0;
+}
+.share-option {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 7px;
+    padding: 14px 8px;
+    border: none; background: none;
+    cursor: pointer; border-radius: 12px;
+    transition: background .18s, transform .15s;
+}
+.share-option:hover { background: #f4f4f5; transform: scale(1.06); }
+body.dark-mode .share-option:hover { background: #2a2d42; }
+.share-option:active { transform: scale(.96); }
+
+.share-icon {
+    width: 48px; height: 48px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+}
+.share-option-label {
+    font-size: 11px; font-weight: 600; color: #535766;
+    text-align: center; white-space: nowrap;
+}
+body.dark-mode .share-option-label { color: #94969f; }
+
+/* Icon colors */
+.si-whatsapp { background: #e7f9ee; }
+.si-whatsapp svg { fill: #25d366; }
+.si-instagram { background: linear-gradient(135deg,#f9e7f0,#fef0e7); }
+.si-instagram svg { fill: url(#igGrad); }
+.si-twitter   { background: #e7f4fd; }
+.si-twitter svg { fill: #1da1f2; }
+.si-copy      { background: #f0f0f5; }
+.si-copy .material-symbols-outlined { color: #535766; font-size: 22px; }
+.si-native    { background: #fff0f4; }
+.si-native .material-symbols-outlined { color: #ff3f6c; font-size: 22px; }
+.si-facebook  { background: #e7edf9; }
+.si-facebook svg { fill: #1877f2; }
+.si-sms       { background: #e7fdf4; }
+.si-sms .material-symbols-outlined { color: #03a685; font-size: 22px; }
+.si-email     { background: #fff8e7; }
+.si-email .material-symbols-outlined { color: #ff905a; font-size: 22px; }
+
+/* Copy link bar */
+.share-copy-bar {
+    display: flex; align-items: center; gap: 8px;
+    margin: 16px 20px 0;
+    padding: 10px 14px;
+    background: #f4f4f5; border-radius: 10px;
+    border: 1px solid #eaeaec;
+}
+body.dark-mode .share-copy-bar { background: #2a2d42; border-color: #3e4157; }
+.share-copy-url {
+    flex: 1; font-size: 12px; color: #7e818c;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.share-copy-btn {
+    background: #ff3f6c; color: #fff; border: none;
+    border-radius: 6px; padding: 6px 14px;
+    font-size: 12px; font-weight: 700; cursor: pointer;
+    transition: opacity .2s; flex-shrink: 0;
+}
+.share-copy-btn:hover { opacity: .88; }
+.share-copy-btn.copied { background: #03a685; }
+
+/* Share button highlight */
+.pd-share-btn {
+    background: linear-gradient(135deg, #ff3f6c, #ff905a) !important;
+    color: #fff !important;
+    border-color: transparent !important;
+    font-weight: 700;
+}
+.pd-share-btn .material-symbols-outlined { color: #fff !important; }
+.pd-share-btn:hover { opacity: .88; transform: scale(1.04); }
