@@ -19,7 +19,7 @@ A full-featured, production-level e-commerce fashion web app built as a clone of
 - ⏰ **Flash Sale Countdown Timer** — live 6-hour countdown banner
 - 🎠 **Auto-sliding Hero Banner** — 4 slides, swipe support, dot indicators
 - Shop by Category chips — All, Men, Women, Kids, Beauty, Jewellery, Home
-- Filter bar with sort options — Price, Discount, Rating, Recommended
+- Filter bar with sort options — Price, Discount,  Rating, Recommended
 - 🦴 **Skeleton Loading Cards** — shimmer placeholders before products load
 - ✨ **Animated product cards** — staggered fade-in on load
 - Product grid with 8 fashion products
