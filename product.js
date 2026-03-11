@@ -104,7 +104,7 @@ function renderProduct() {
 
     // Share + Wishlist image buttons
     html += '<div class="pd-img-actions">';
-    html += '<button class="pd-img-action-btn" onclick="shareProduct()">';
+    html += '<button class="pd-img-action-btn pd-share-btn" onclick="shareProduct()" title="Share this product">';
     html += '<span class="material-symbols-outlined">share</span> Share</button>';
     html += '<button class="pd-img-action-btn ' + (inWishlist ? 'active' : '') + '" id="imgWishBtn" onclick="toggleWishlist()">';
     html += '<span class="material-symbols-outlined">' + (inWishlist ? 'favorite' : 'favorite_border') + '</span> Wishlist</button>';
@@ -303,18 +303,179 @@ function toggleWishlist() {
     }
 }
 
-/* ── Share Product ── */
+/* ══════════════════════════════════════
+   SHARE PRODUCT — Full Web Share API
+══════════════════════════════════════ */
 function shareProduct() {
+    if (!currentItem) return;
+
+    // Try native Web Share API first (mobile)
     if (navigator.share) {
         navigator.share({
-            title: currentItem.company + ' — ' + currentItem.item_name,
-            text: 'Check out this product on Myntra! ₹' + currentItem.current_price,
-            url: window.location.href
+            title : currentItem.company + ' — ' + currentItem.item_name,
+            text  : '🛍️ Check out this on Myntra!\n' +
+                    currentItem.item_name + '\n' +
+                    '₹' + currentItem.current_price + ' (' + currentItem.discount_percentage + '% OFF)\n',
+            url   : window.location.href
+        }).then(function() {
+            showToast('✅ Shared successfully!');
+        }).catch(function(err) {
+            if (err.name !== 'AbortError') openShareModal();
         });
     } else {
-        navigator.clipboard.writeText(window.location.href);
-        showToast('Link copied to clipboard!');
+        // Desktop — open beautiful share modal
+        openShareModal();
     }
+}
+
+function openShareModal() {
+    if (!currentItem) return;
+
+    // Fill product preview
+    var img = document.getElementById('sharePreviewImg');
+    var base = '/Myntra_Clone_Professional/';
+    if (img) img.src = base + currentItem.image;
+
+    var brand = document.getElementById('sharePreviewBrand');
+    var name  = document.getElementById('sharePreviewName');
+    var price = document.getElementById('sharePreviewPrice');
+    var orig  = document.getElementById('sharePreviewOriginal');
+    var disc  = document.getElementById('sharePreviewDiscount');
+    if (brand) brand.textContent = currentItem.company;
+    if (name)  name.textContent  = currentItem.item_name;
+    if (price) price.textContent = '₹' + currentItem.current_price.toLocaleString();
+    if (orig && currentItem.discount_percentage > 0) {
+        orig.textContent = '₹' + currentItem.original_price.toLocaleString();
+    }
+    if (disc && currentItem.discount_percentage > 0) {
+        disc.textContent = currentItem.discount_percentage + '% OFF';
+    }
+
+    // Fill URL bar
+    var urlEl = document.getElementById('shareCopyUrl');
+    if (urlEl) urlEl.textContent = window.location.href;
+
+    // Open modal
+    var overlay = document.getElementById('shareModalOverlay');
+    if (overlay) overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeShareModal(e) {
+    if (e && e.target !== document.getElementById('shareModalOverlay')) return;
+    var overlay = document.getElementById('shareModalOverlay');
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function shareVia(platform) {
+    if (!currentItem) return;
+    var url     = encodeURIComponent(window.location.href);
+    var text    = encodeURIComponent(
+        '🛍️ ' + currentItem.item_name + ' by ' + currentItem.company +
+        ' — ₹' + currentItem.current_price + ' (' + currentItem.discount_percentage + '% OFF) on Myntra!'
+    );
+    var rawUrl  = window.location.href;
+
+    switch (platform) {
+        case 'whatsapp':
+            window.open('https://wa.me/?text=' + text + '%20' + url, '_blank');
+            closeShareModal({ target: document.getElementById('shareModalOverlay') });
+            showToast('Opening WhatsApp… 💬');
+            break;
+
+        case 'twitter':
+            window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank');
+            closeShareModal({ target: document.getElementById('shareModalOverlay') });
+            showToast('Opening Twitter… 🐦');
+            break;
+
+        case 'facebook':
+            window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank');
+            closeShareModal({ target: document.getElementById('shareModalOverlay') });
+            showToast('Opening Facebook… 👍');
+            break;
+
+        case 'instagram':
+            // Instagram doesn't support direct URL sharing — copy link instead
+            copyToClipboard(rawUrl);
+            closeShareModal({ target: document.getElementById('shareModalOverlay') });
+            showToast('Link copied! Paste it in Instagram Stories 📸');
+            break;
+
+        case 'sms':
+            window.open('sms:?body=' + text + '%20' + url);
+            closeShareModal({ target: document.getElementById('shareModalOverlay') });
+            showToast('Opening SMS… 💬');
+            break;
+
+        case 'email':
+            var subject = encodeURIComponent('Check out this product on Myntra!');
+            var body    = encodeURIComponent(
+                'Hi!\n\nI found this amazing product on Myntra:\n\n' +
+                currentItem.item_name + ' by ' + currentItem.company + '\n' +
+                'Price: ₹' + currentItem.current_price + ' (' + currentItem.discount_percentage + '% OFF)\n\n' +
+                rawUrl + '\n\nHappy Shopping! 🛍️'
+            );
+            window.open('mailto:?subject=' + subject + '&body=' + body);
+            closeShareModal({ target: document.getElementById('shareModalOverlay') });
+            showToast('Opening Email… 📧');
+            break;
+
+        case 'copy':
+            copyToClipboard(rawUrl);
+            closeShareModal({ target: document.getElementById('shareModalOverlay') });
+            showToast('✅ Link copied to clipboard!');
+            break;
+
+        case 'native':
+            closeShareModal({ target: document.getElementById('shareModalOverlay') });
+            if (navigator.share) {
+                navigator.share({
+                    title: currentItem.company + ' — ' + currentItem.item_name,
+                    text : '🛍️ ' + currentItem.item_name + ' ₹' + currentItem.current_price,
+                    url  : rawUrl
+                });
+            } else {
+                copyToClipboard(rawUrl);
+                showToast('✅ Link copied to clipboard!');
+            }
+            break;
+    }
+}
+
+function copyShareLink() {
+    var rawUrl = window.location.href;
+    copyToClipboard(rawUrl);
+    var btn = document.getElementById('shareCopyBtn');
+    if (btn) {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            btn.textContent = 'Copy';
+            btn.classList.remove('copied');
+        }, 2000);
+    }
+}
+
+function copyToClipboard(text) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).catch(function() {
+            fallbackCopy(text);
+        });
+    } else {
+        fallbackCopy(text);
+    }
+}
+
+function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
 }
 
 /* ── Similar Products ── */
