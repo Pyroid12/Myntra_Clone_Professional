@@ -153,7 +153,7 @@ function renderProduct() {
     html += '<div class="pd-size-header">';
     html += '<span class="pd-size-label">Select Size</span>';
     if (item.sizes[0] !== 'One Size') {
-        html += '<button class="pd-size-guide"><span class="material-symbols-outlined">straighten</span> Size Guide</button>';
+        html += '<button class="pd-size-guide" onclick="openSizeGuide()"><span class="material-symbols-outlined">straighten</span> Size Guide</button>';
     }
     html += '</div>';
     html += '<div class="pd-sizes">' + sizesHTML + '</div>';
@@ -556,5 +556,118 @@ function updateBottomNavBadges() {
     if (wishBadge) {
         wishBadge.textContent = wishlistItems.length;
         wishBadge.classList.toggle('visible', wishlistItems.length > 0);
+    }
+}
+
+/* ══════════════════════════════════════
+   SIZE GUIDE BOTTOM SHEET
+══════════════════════════════════════ */
+
+// CM data — women: [size, chest, waist, hips, ukSize]
+var SG_WOMEN_CM = [
+    ['XS',  '76-80',  '60-64',  '84-88',  '6'],
+    ['S',   '81-85',  '65-69',  '89-93',  '8'],
+    ['M',   '86-90',  '70-74',  '94-98',  '10'],
+    ['L',   '91-96',  '75-80',  '99-104', '12'],
+    ['XL',  '97-102', '81-86',  '105-110','14'],
+    ['XXL', '103-108','87-92',  '111-116','16'],
+];
+// CM data — men: [size, chest, waist, shoulder, ukSize]
+var SG_MEN_CM = [
+    ['XS',  '76-80',  '64-68',  '38-39', 'XS'],
+    ['S',   '84-88',  '70-74',  '40-41', 'S'],
+    ['M',   '92-96',  '78-82',  '42-43', 'M'],
+    ['L',   '100-104','86-90',  '44-45', 'L'],
+    ['XL',  '108-112','94-98',  '46-47', 'XL'],
+    ['XXL', '116-120','102-106','48-49', 'XXL'],
+];
+
+var sgCurrentUnit = 'cm';
+
+function openSizeGuide() {
+    var overlay = document.getElementById('sizeGuideOverlay');
+    if (!overlay) return;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    sgRenderTables();
+    // Auto-switch to shoes tab if product is shoes
+    if (currentItem && currentItem.category === 'men' &&
+        currentItem.item_name.toLowerCase().match(/shoe|sneaker|boot|sandal/)) {
+        var shoeTab = document.querySelector('.sg-tab[data-tab="shoes"]');
+        if (shoeTab) sgTab(shoeTab, 'shoes');
+    }
+}
+
+function closeSizeGuide(e) {
+    if (e && e.target !== document.getElementById('sizeGuideOverlay')) return;
+    var overlay = document.getElementById('sizeGuideOverlay');
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function sgTab(btn, tabId) {
+    document.querySelectorAll('.sg-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.sg-panel').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    var panel = document.getElementById('sg-' + tabId);
+    if (panel) panel.classList.add('active');
+}
+
+function sgUnit(unit) {
+    sgCurrentUnit = unit;
+    document.getElementById('sgCmBtn').classList.toggle('active', unit === 'cm');
+    document.getElementById('sgInBtn').classList.toggle('active', unit === 'in');
+    sgRenderTables();
+}
+
+function sgConvert(val, unit) {
+    if (unit === 'cm') return val;
+    // Convert "86-90" → "33.9-35.4"
+    return val.split('-').map(function(n) {
+        return (parseFloat(n) / 2.54).toFixed(1);
+    }).join('-');
+}
+
+function sgRenderTables() {
+    var unit = sgCurrentUnit;
+
+    // Women
+    var wb = document.getElementById('sgWomenBody');
+    if (wb) {
+        wb.innerHTML = SG_WOMEN_CM.map(function(row) {
+            return '<tr>' +
+                '<td>' + row[0] + '</td>' +
+                '<td>' + sgConvert(row[1], unit) + '</td>' +
+                '<td>' + sgConvert(row[2], unit) + '</td>' +
+                '<td>' + sgConvert(row[3], unit) + '</td>' +
+                '<td>' + row[4] + '</td>' +
+            '</tr>';
+        }).join('');
+    }
+
+    // Men
+    var mb = document.getElementById('sgMenBody');
+    if (mb) {
+        mb.innerHTML = SG_MEN_CM.map(function(row) {
+            return '<tr>' +
+                '<td>' + row[0] + '</td>' +
+                '<td>' + sgConvert(row[1], unit) + '</td>' +
+                '<td>' + sgConvert(row[2], unit) + '</td>' +
+                '<td>' + sgConvert(row[3], unit) + '</td>' +
+                '<td>' + row[4] + '</td>' +
+            '</tr>';
+        }).join('');
+    }
+
+    // Highlight selected size row if any
+    if (selectedSize) {
+        document.querySelectorAll('.sg-table tbody tr').forEach(function(row) {
+            var sizeCell = row.querySelector('td:first-child');
+            if (sizeCell && sizeCell.textContent.trim() === selectedSize) {
+                row.classList.add('highlight');
+            } else {
+                row.classList.remove('highlight');
+            }
+        });
     }
 }
