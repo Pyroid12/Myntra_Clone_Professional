@@ -1,0 +1,269 @@
+/* ============================================================
+   MYNTRA CLONE — spinwheel.css
+   Spin & Win Coupon Wheel
+   ============================================================ */
+
+/* ── Trigger button (fixed bottom left) ── */
+.spin-trigger {
+    position: fixed;
+    bottom: 90px; left: 20px;
+    background: linear-gradient(135deg, #f7b733, #fc4a1a);
+    border: none; border-radius: 50px;
+    padding: 10px 18px;
+    display: flex; align-items: center; gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(252,74,26,.4);
+    z-index: 996;
+    animation: spinTriggerBounce 2s ease-in-out infinite;
+    transition: transform .2s, box-shadow .2s;
+}
+.spin-trigger:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(252,74,26,.55);
+    animation: none;
+}
+@keyframes spinTriggerBounce {
+    0%,100% { transform: translateY(0);   }
+    50%      { transform: translateY(-6px); }
+}
+.spin-trigger-icon { font-size: 22px; }
+.spin-trigger-text {
+    display: flex; flex-direction: column;
+    align-items: flex-start; gap: 0;
+}
+.spin-trigger-text span:first-child {
+    font-size: 11px; font-weight: 800;
+    color: #fff; letter-spacing: .5px;
+    text-transform: uppercase;
+}
+.spin-trigger-text span:last-child {
+    font-size: 10px; color: rgba(255,255,255,.85);
+}
+@media (min-width: 769px) { .spin-trigger { bottom: 32px; left: 24px; } }
+@media (max-width: 480px) { .spin-trigger { bottom: 80px; left: 12px; padding: 9px 14px; } }
+
+/* ── Modal overlay ── */
+.spin-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.75);
+    backdrop-filter: blur(4px);
+    z-index: 9998;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+}
+.spin-overlay.open { opacity: 1; visibility: visible; }
+
+/* ── Modal box ── */
+.spin-modal {
+    background: #fff;
+    border-radius: 24px;
+    width: 100%; max-width: 420px;
+    padding: 28px 24px 32px;
+    text-align: center;
+    position: relative;
+    transform: scale(.85) translateY(20px);
+    transition: transform .4s cubic-bezier(.34,1.3,.64,1);
+    overflow: hidden;
+}
+.spin-overlay.open .spin-modal { transform: scale(1) translateY(0); }
+body.dark-mode .spin-modal { background: #1e2033; }
+
+/* Decorative top gradient bar */
+.spin-modal::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #ff3f6c, #f7b733, #fc4a1a, #ff3f6c);
+    background-size: 200% 100%;
+    animation: spinBarMove 2s linear infinite;
+}
+@keyframes spinBarMove { 0%{background-position:0%} 100%{background-position:200%} }
+
+.spin-close {
+    position: absolute; top: 14px; right: 14px;
+    width: 30px; height: 30px; border-radius: 50%;
+    border: none; background: #f4f4f5;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; font-size: 16px; color: #535766;
+    transition: background .2s;
+}
+.spin-close:hover { background: #eaeaec; }
+body.dark-mode .spin-close { background: #2a2d42; color: #c4c6cf; }
+
+.spin-modal-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #f7b733, #fc4a1a);
+    color: #fff; font-size: 11px; font-weight: 800;
+    padding: 4px 14px; border-radius: 20px;
+    letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 8px;
+}
+.spin-modal-title {
+    font-size: 24px; font-weight: 900; color: #282c3f;
+    line-height: 1.2; margin-bottom: 4px;
+}
+body.dark-mode .spin-modal-title { color: #f4f4f5; }
+.spin-modal-title span { color: #ff3f6c; }
+.spin-modal-sub {
+    font-size: 13px; color: #7e818c;
+    margin-bottom: 20px;
+}
+
+/* ── Wheel container ── */
+.spin-wheel-wrap {
+    position: relative;
+    width: 280px; height: 280px;
+    margin: 0 auto 20px;
+}
+
+/* Arrow pointer */
+.spin-pointer {
+    position: absolute;
+    top: -14px; left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-top: 22px solid #282c3f;
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.3));
+}
+body.dark-mode .spin-pointer { border-top-color: #f4f4f5; }
+
+/* Canvas wheel */
+#spinCanvas {
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    box-shadow: 0 8px 32px rgba(0,0,0,.2), 0 0 0 6px #fff, 0 0 0 8px #eaeaec;
+    cursor: pointer;
+    transition: box-shadow .2s;
+}
+body.dark-mode #spinCanvas {
+    box-shadow: 0 8px 32px rgba(0,0,0,.4), 0 0 0 6px #1e2033, 0 0 0 8px #2e3043;
+}
+#spinCanvas:hover { box-shadow: 0 10px 36px rgba(255,63,108,.25), 0 0 0 6px #fff, 0 0 0 8px #ffcdd7; }
+
+/* Center button on wheel */
+.spin-center-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px; height: 64px; border-radius: 50%;
+    background: linear-gradient(135deg, #ff3f6c, #ff905a);
+    border: 4px solid #fff;
+    box-shadow: 0 4px 16px rgba(255,63,108,.4);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    cursor: pointer; z-index: 2;
+    transition: transform .2s, box-shadow .2s;
+    font-size: 10px; font-weight: 800;
+    color: #fff; letter-spacing: .5px;
+    text-transform: uppercase; line-height: 1.2;
+}
+.spin-center-btn:hover:not(:disabled) {
+    transform: translate(-50%, -50%) scale(1.1);
+    box-shadow: 0 6px 20px rgba(255,63,108,.55);
+}
+.spin-center-btn:disabled {
+    background: #d4d5d9;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+.spin-center-btn .material-symbols-outlined { font-size: 20px; }
+
+/* ── Spin button below wheel ── */
+.spin-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #ff3f6c, #ff905a);
+    color: #fff; border: none; border-radius: 12px;
+    padding: 14px; font-size: 15px; font-weight: 800;
+    letter-spacing: .5px; text-transform: uppercase;
+    cursor: pointer; transition: opacity .2s, transform .2s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin-bottom: 12px;
+}
+.spin-btn:hover:not(:disabled) { opacity: .9; transform: translateY(-1px); }
+.spin-btn:disabled { background: #d4d5d9; cursor: not-allowed; transform: none; }
+.spin-btn .material-symbols-outlined { font-size: 20px; }
+
+.spin-note {
+    font-size: 11px; color: #94969f;
+    display: flex; align-items: center; justify-content: center; gap: 4px;
+}
+.spin-note .material-symbols-outlined { font-size: 14px; }
+
+/* ── Result overlay (shown on win) ── */
+.spin-result {
+    display: none;
+    flex-direction: column; align-items: center;
+    gap: 12px; padding: 12px 0 4px;
+}
+.spin-result.show { display: flex; }
+
+.spin-result-emoji { font-size: 56px; animation: spinResultPop .5s cubic-bezier(.34,1.8,.64,1); }
+@keyframes spinResultPop { from{transform:scale(0)} to{transform:scale(1)} }
+
+.spin-result-title {
+    font-size: 20px; font-weight: 900; color: #282c3f;
+}
+body.dark-mode .spin-result-title { color: #f4f4f5; }
+
+.spin-coupon-box {
+    background: linear-gradient(135deg, #fff0f4, #fff8f0);
+    border: 2px dashed #ff3f6c;
+    border-radius: 12px;
+    padding: 16px 28px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 4px;
+    width: 100%;
+}
+body.dark-mode .spin-coupon-box { background: linear-gradient(135deg, #2a1620, #2a1a0e); }
+
+.spin-coupon-label { font-size: 11px; color: #7e818c; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; }
+.spin-coupon-code {
+    font-size: 28px; font-weight: 900;
+    color: #ff3f6c; letter-spacing: 3px;
+    font-family: monospace;
+}
+.spin-coupon-desc { font-size: 12px; color: #535766; }
+body.dark-mode .spin-coupon-desc { color: #94969f; }
+
+.spin-copy-btn {
+    background: #282c3f; color: #fff; border: none;
+    border-radius: 8px; padding: 8px 20px;
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+    transition: background .2s;
+}
+.spin-copy-btn:hover { background: #ff3f6c; }
+.spin-copy-btn.copied { background: #03a685; }
+.spin-copy-btn .material-symbols-outlined { font-size: 16px; }
+
+.spin-use-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #ff3f6c, #ff905a);
+    color: #fff; border: none; border-radius: 12px;
+    padding: 13px; font-size: 14px; font-weight: 800;
+    cursor: pointer; transition: opacity .2s;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.spin-use-btn:hover { opacity: .9; }
+.spin-use-btn .material-symbols-outlined { font-size: 18px; }
+
+/* Already played state */
+.spin-already-played {
+    display: none; flex-direction: column;
+    align-items: center; gap: 10px;
+    padding: 8px 0;
+}
+.spin-already-played.show { display: flex; }
+.spin-already-played-icon { font-size: 40px; }
+.spin-already-played p { font-size: 13px; color: #7e818c; text-align: center; line-height: 1.5; }
+.spin-already-coupon {
+    background: #f4f4f5; border-radius: 8px;
+    padding: 10px 20px; font-size: 18px;
+    font-weight: 900; color: #ff3f6c; letter-spacing: 2px; font-family: monospace;
+}
+body.dark-mode .spin-already-coupon { background: #2a2d42; }
