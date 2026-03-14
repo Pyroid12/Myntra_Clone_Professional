@@ -9,7 +9,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChang
 import { getFirestore, doc, getDoc, setDoc }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* ── YOUR FIREBASE CONFIG — Replace with your own values ── */
+/* ──  FIREBASE CONFIG —  ── */
 const firebaseConfig = {
     apiKey:            "YOUR_API_KEY",
     authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
