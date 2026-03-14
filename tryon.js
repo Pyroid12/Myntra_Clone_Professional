@@ -12,21 +12,33 @@ var tryonItem      = null;
 ══════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', function () {
     // Wait for product.js to render product
-    setTimeout(injectTryOnButtons, 600);
+    // Retry every 300ms up to 10 times until product renders
+    var tryCount = 0;
+    function tryInject() {
+        tryCount++;
+        if (document.getElementById('pdBagBtn') || document.querySelector('.btn-pd-bag')) {
+            injectTryOnButtons();
+        } else if (tryCount < 10) {
+            setTimeout(tryInject, 300);
+        }
+    }
+    setTimeout(tryInject, 400);
     buildTryOnModal();
     buildWAModal();
     buildSnapPreview();
 });
 
 function injectTryOnButtons() {
-    // Find "Add to Bag" button area
-    var addBagBtn = document.querySelector('.pd-add-bag-btn') ||
-                    document.querySelector('.btn-add-bag') ||
-                    document.querySelector('[onclick*="addToBag"]');
+    // Find "Add to Bag" button area — matches product.js generated HTML
+    var addBagBtn = document.getElementById('pdBagBtn') ||
+                    document.querySelector('.btn-pd-bag') ||
+                    document.querySelector('.pd-add-bag-btn') ||
+                    document.querySelector('.btn-add-bag');
 
     if (!addBagBtn) { setTimeout(injectTryOnButtons, 400); return; }
 
-    var parent = addBagBtn.parentNode;
+    // Use pd-cta-buttons wrapper as parent if available
+    var parent = document.querySelector('.pd-cta-buttons') || addBagBtn.parentNode;
 
     // Virtual Try-On button
     var tryBtn = document.createElement('button');
