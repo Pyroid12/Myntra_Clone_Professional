@@ -278,3 +278,14 @@ body.dark-mode .btn-cancel { background: #2a2d42; border-color: #3e4157; color: 
     .order-timeline { display: none; }
     .order-item-img { width: 56px; height: 68px; }
 }
+
+/* ── Desktop Responsive Fixes ── */
+@media (min-width: 1200px) {
+    .orders-page    { max-width: 960px; padding: 28px 40px 80px; }
+}
+@media (max-width: 599px) {
+    .orders-page    { padding: 14px 12px 80px; }
+    .order-card-header { padding: 10px 14px; }
+    .order-items    { padding: 0 14px; }
+    .order-card-footer { padding: 10px 14px; }
+}
