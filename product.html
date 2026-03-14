@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Wishlist – Myntra</title>
+    <title>Product – Myntra</title>
     <link rel="stylesheet" href="/Myntra_Clone_Professional/index.css">
-    <link rel="stylesheet" href="/Myntra_Clone_Professional/wishlist.css">
+    <link rel="stylesheet" href="/Myntra_Clone_Professional/product.css">
     <link rel="stylesheet" href="/Myntra_Clone_Professional/auth.css">
     <link rel="stylesheet" href="/Myntra_Clone_Professional/bottomnav.css">
     <link rel="stylesheet" href="/Myntra_Clone_Professional/uifeatures.css">
@@ -14,13 +14,10 @@
     <!-- PWA -->
     <link rel="manifest" href="/Myntra_Clone_Professional/manifest.json">
     <meta name="theme-color" content="#ff3f6c">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Myntra">
-    <link rel="apple-touch-icon" href="/Myntra_Clone_Professional/myntra_logo.webp">
     <link rel="stylesheet" href="/Myntra_Clone_Professional/ai-assistant.css">
     <link rel="stylesheet" href="/Myntra_Clone_Professional/notifications.css">
     <link rel="stylesheet" href="/Myntra_Clone_Professional/spinwheel.css">
+    <link rel="stylesheet" href="/Myntra_Clone_Professional/tryon.css">
 </head>
 <body>
 <!-- SPLASH SCREEN -->
@@ -28,6 +25,28 @@
     <img class="splash-logo" src="/Myntra_Clone_Professional/myntra_logo.webp" alt="Myntra">
     <div class="splash-tagline">Fashion at its Best</div>
     <div class="splash-bar"><div class="splash-bar-fill"></div></div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="login-modal-overlay" id="loginModal">
+    <div class="login-modal">
+        <button class="modal-close" onclick="closeLoginModal()">&#10005;</button>
+        <div class="modal-logo"><img src="/Myntra_Clone_Professional/myntra_logo.webp" alt="Myntra"></div>
+        <h2 class="modal-title">Login / Signup</h2>
+        <p class="modal-subtitle">Sign in to sync your bag &amp; wishlist</p>
+        <button class="btn-google-signin" onclick="signInWithGoogle()">
+            <svg class="google-icon" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            Continue with Google
+        </button>
+        <div class="modal-divider"><span>or</span></div>
+        <button class="btn-guest" onclick="closeLoginModal()">Continue as Guest</button>
+        <div id="authError"></div>
+    </div>
 </div>
 
 <!-- HEADER -->
@@ -62,40 +81,34 @@
             <span class="material-symbols-outlined action_icon">logout</span>
             <span class="action_name">Sign Out</span>
         </button>
+        <a class="action_container" href="/Myntra_Clone_Professional/orders.html">
+            <span class="material-symbols-outlined action_icon">receipt_long</span>
+            <span class="action_name">Orders</span>
+        </a>
         <a class="action_container" href="/Myntra_Clone_Professional/wishlist.html">
-            <span class="material-symbols-outlined action_icon" style="color:var(--pink)">favorite</span>
-            <span class="action_name" style="color:var(--pink)">Wishlist</span>
+            <span class="material-symbols-outlined action_icon">favorite</span>
+            <span class="action_name">Wishlist</span>
+            <span class="bag-item-count" id="wishlist-count" style="visibility:hidden;">0</span>
         </a>
         <a class="action_container" href="/Myntra_Clone_Professional/bag.html">
             <span class="material-symbols-outlined action_icon">shopping_bag</span>
             <span class="action_name">Bag</span>
-            <span class="bag-item-count" style="visibility:hidden;">0</span>
+            <span class="bag-item-count" id="bag-count" style="visibility:hidden;">0</span>
         </a>
     </div>
 </header>
 
-<!-- PAGE BODY -->
-<div class="wishlist-page">
+<!-- PRODUCT PAGE -->
+<div class="product-page" id="productPage">
+    <!-- Rendered by product.js -->
+</div>
 
-    <!-- Breadcrumb -->
-    <div class="wl-breadcrumb">
-        <a href="/Myntra_Clone_Professional/index.html">Home</a> &rsaquo; My Wishlist
+<!-- SIMILAR PRODUCTS -->
+<div class="similar-section" id="similarSection" style="display:none;">
+    <div class="similar-heading">
+        <h2>Similar Products</h2>
     </div>
-
-    <!-- Header bar -->
-    <div class="wl-header">
-        <div class="wl-header-left">
-            <h1 class="wl-title">My Wishlist</h1>
-            <span class="wl-count" id="wlCount">0 items</span>
-        </div>
-        <button class="wl-clear-btn" id="clearAllBtn">Clear All</button>
-    </div>
-
-    <!-- Grid -->
-    <div class="wl-grid" id="wishlistGrid">
-        <!-- Rendered by wishlist.js -->
-    </div>
-
+    <div class="similar-grid" id="similarGrid"></div>
 </div>
 
 <!-- FOOTER -->
@@ -127,13 +140,11 @@
 <script src="/Myntra_Clone_Professional/items.js"></script>
 <script type="module" src="/Myntra_Clone_Professional/firebase.js">
 </script>
-<script src="/Myntra_Clone_Professional/wishlist.js"></script>
+<script src="/Myntra_Clone_Professional/product.js"></script>
 <script>
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", function() {
-        navigator.serviceWorker.register("/Myntra_Clone_Professional/sw.js")
-            .then(function(reg) { console.log("✅ SW registered"); })
-            .catch(function(err) { console.log("SW error:", err); });
+        navigator.serviceWorker.register("/Myntra_Clone_Professional/sw.js");
     });
 }
 </script>
@@ -147,8 +158,8 @@ if ("serviceWorker" in navigator) {
         <span class="material-symbols-outlined">home</span>
         <span>Home</span>
     </a>
-    <a class="bn-item active" href="/Myntra_Clone_Professional/wishlist.html">
-        <span class="material-symbols-outlined">favorite</span>
+    <a class="bn-item" href="/Myntra_Clone_Professional/wishlist.html">
+        <span class="material-symbols-outlined">favorite_border</span>
         <span>Wishlist</span>
         <span class="bn-badge" id="bn-wish-count"></span>
     </a>
@@ -164,7 +175,263 @@ if ("serviceWorker" in navigator) {
 </nav>
 <script src="/Myntra_Clone_Professional/uifeatures.js"></script>
 <script src="/Myntra_Clone_Professional/ai-assistant.js"></script>
+<!-- SHARE MODAL -->
+<div class="share-modal-overlay" id="shareModalOverlay" onclick="closeShareModal(event)">
+    <div class="share-modal" id="shareModal">
+        <div class="share-handle"></div>
+        <div class="share-modal-title">Share Product</div>
+
+        <!-- Product preview -->
+        <div class="share-product-preview" id="sharePreview">
+            <img id="sharePreviewImg" src="" alt="">
+            <div class="share-preview-info">
+                <div class="share-preview-brand" id="sharePreviewBrand"></div>
+                <div class="share-preview-name"  id="sharePreviewName"></div>
+                <div>
+                    <span class="share-preview-price"    id="sharePreviewPrice"></span>
+                    <span class="share-preview-original" id="sharePreviewOriginal"></span>
+                    <span class="share-preview-discount" id="sharePreviewDiscount"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share options -->
+        <div class="share-options">
+
+            <!-- WhatsApp -->
+            <button class="share-option" onclick="shareVia('whatsapp')">
+                <div class="share-icon si-whatsapp">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.861L0 24l6.293-1.51A11.935 11.935 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.885 0-3.651-.502-5.178-1.381l-.371-.22-3.844.924.963-3.736-.242-.385A9.934 9.934 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+                </div>
+                <span class="share-option-label">WhatsApp</span>
+            </button>
+
+            <!-- Instagram -->
+            <button class="share-option" onclick="shareVia('instagram')">
+                <div class="share-icon si-instagram">
+                    <svg width="24" height="24" viewBox="0 0 24 24">
+                        <defs><linearGradient id="igGrad" x1="0%" y1="100%" x2="100%" y2="0%"><stop offset="0%" style="stop-color:#f09433"/><stop offset="25%" style="stop-color:#e6683c"/><stop offset="50%" style="stop-color:#dc2743"/><stop offset="75%" style="stop-color:#cc2366"/><stop offset="100%" style="stop-color:#bc1888"/></linearGradient></defs>
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                    </svg>
+                </div>
+                <span class="share-option-label">Instagram</span>
+            </button>
+
+            <!-- Twitter/X -->
+            <button class="share-option" onclick="shareVia('twitter')">
+                <div class="share-icon si-twitter">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                </div>
+                <span class="share-option-label">Twitter</span>
+            </button>
+
+            <!-- Copy Link -->
+            <button class="share-option" onclick="shareVia('copy')">
+                <div class="share-icon si-copy">
+                    <span class="material-symbols-outlined">content_copy</span>
+                </div>
+                <span class="share-option-label">Copy Link</span>
+            </button>
+
+            <!-- Facebook -->
+            <button class="share-option" onclick="shareVia('facebook')">
+                <div class="share-icon si-facebook">
+                    <svg width="24" height="24" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </div>
+                <span class="share-option-label">Facebook</span>
+            </button>
+
+            <!-- SMS -->
+            <button class="share-option" onclick="shareVia('sms')">
+                <div class="share-icon si-sms">
+                    <span class="material-symbols-outlined">sms</span>
+                </div>
+                <span class="share-option-label">SMS</span>
+            </button>
+
+            <!-- Email -->
+            <button class="share-option" onclick="shareVia('email')">
+                <div class="share-icon si-email">
+                    <span class="material-symbols-outlined">mail</span>
+                </div>
+                <span class="share-option-label">Email</span>
+            </button>
+
+            <!-- Native Share (More) -->
+            <button class="share-option" onclick="shareVia('native')">
+                <div class="share-icon si-native">
+                    <span class="material-symbols-outlined">more_horiz</span>
+                </div>
+                <span class="share-option-label">More</span>
+            </button>
+
+        </div>
+
+        <!-- Copy URL bar -->
+        <div class="share-copy-bar">
+            <span class="share-copy-url" id="shareCopyUrl"></span>
+            <button class="share-copy-btn" id="shareCopyBtn" onclick="copyShareLink()">Copy</button>
+        </div>
+    </div>
+</div>
+
+<!-- SIZE GUIDE BOTTOM SHEET -->
+<div class="size-guide-overlay" id="sizeGuideOverlay" onclick="closeSizeGuide(event)">
+  <div class="size-guide-sheet" id="sizeGuideSheet">
+    <div class="sg-handle"></div>
+
+    <!-- Header -->
+    <div class="sg-header">
+      <div class="sg-title">
+        <span class="material-symbols-outlined">straighten</span>
+        Size Guide
+      </div>
+      <button class="sg-close" onclick="closeSizeGuide(null)">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="sg-tabs">
+      <button class="sg-tab active" data-tab="clothing" onclick="sgTab(this,'clothing')">Clothing</button>
+      <button class="sg-tab" data-tab="shoes" onclick="sgTab(this,'shoes')">Footwear</button>
+      <button class="sg-tab" data-tab="how" onclick="sgTab(this,'how')">How to Measure</button>
+    </div>
+
+    <!-- Content -->
+    <div class="sg-content">
+
+      <!-- CLOTHING TAB -->
+      <div class="sg-panel active" id="sg-clothing">
+        <div class="sg-unit-toggle">
+          <button class="sg-unit-btn active" id="sgCmBtn" onclick="sgUnit('cm')">CM</button>
+          <button class="sg-unit-btn" id="sgInBtn" onclick="sgUnit('in')">INCHES</button>
+        </div>
+
+        <div class="sg-fit-tip">
+          💡 <strong>Pro Tip:</strong> If you're between sizes, we recommend going up a size for a comfortable fit. All measurements are body measurements, not garment measurements.
+        </div>
+
+        <!-- Women's table -->
+        <div id="sgWomenTable">
+          <div class="sg-measure-title"><span class="material-symbols-outlined">woman</span> Women's Clothing</div>
+          <table class="sg-table">
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Chest</th>
+                <th>Waist</th>
+                <th>Hips</th>
+                <th>UK Size</th>
+              </tr>
+            </thead>
+            <tbody id="sgWomenBody"></tbody>
+          </table>
+        </div>
+
+        <!-- Men's table -->
+        <div id="sgMenTable">
+          <div class="sg-measure-title"><span class="material-symbols-outlined">man</span> Men's Clothing</div>
+          <table class="sg-table">
+            <thead>
+              <tr>
+                <th>Size</th>
+                <th>Chest</th>
+                <th>Waist</th>
+                <th>Shoulder</th>
+                <th>UK Size</th>
+              </tr>
+            </thead>
+            <tbody id="sgMenBody"></tbody>
+          </table>
+        </div>
+
+        <div class="sg-note">
+          📌 Sizes may vary slightly by brand and style. When in doubt, check the product's specific size chart or contact our support.
+        </div>
+      </div>
+
+      <!-- SHOES TAB -->
+      <div class="sg-panel" id="sg-shoes">
+        <div class="sg-fit-tip">
+          👟 <strong>Shoe Fit Tip:</strong> Measure your foot at the end of the day when feet are at their largest. Always measure both feet and use the larger measurement.
+        </div>
+        <div class="sg-measure-title"><span class="material-symbols-outlined">footprint</span> Shoe Size Chart</div>
+        <table class="sg-table">
+          <thead>
+            <tr>
+              <th>India</th>
+              <th>UK</th>
+              <th>EU</th>
+              <th>US Men</th>
+              <th>US Women</th>
+              <th>CM</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>5</td><td>4</td><td>37</td><td>5</td><td>6</td><td>23.5</td></tr>
+            <tr><td>6</td><td>5</td><td>38</td><td>6</td><td>7</td><td>24.5</td></tr>
+            <tr><td>7</td><td>6</td><td>39</td><td>7</td><td>8</td><td>25.4</td></tr>
+            <tr><td>8</td><td>7</td><td>41</td><td>8</td><td>9</td><td>26.2</td></tr>
+            <tr><td>9</td><td>8</td><td>42</td><td>9</td><td>10</td><td>27.1</td></tr>
+            <tr><td>10</td><td>9</td><td>43</td><td>10</td><td>11</td><td>28.0</td></tr>
+            <tr><td>11</td><td>10</td><td>44</td><td>11</td><td>12</td><td>28.9</td></tr>
+          </tbody>
+        </table>
+        <div class="sg-note">📌 Indian shoe sizes generally follow UK sizing. Always try shoes on before purchase when possible.</div>
+      </div>
+
+      <!-- HOW TO MEASURE TAB -->
+      <div class="sg-panel" id="sg-how">
+        <div class="sg-fit-tip">
+          📏 <strong>For best results:</strong> Use a soft measuring tape. Measure over light underwear. Keep the tape snug but not tight.
+        </div>
+        <div class="sg-measure-title"><span class="material-symbols-outlined">rule</span> How to Measure</div>
+        <div class="sg-measure-steps">
+          <div class="sg-measure-step">
+            <div class="sg-step-num">1</div>
+            <div class="sg-step-text">
+              <strong>Chest / Bust</strong>
+              Wrap the tape around the fullest part of your chest, keeping it horizontal and parallel to the floor.
+            </div>
+          </div>
+          <div class="sg-measure-step">
+            <div class="sg-step-num">2</div>
+            <div class="sg-step-text">
+              <strong>Waist</strong>
+              Measure around your natural waistline — the narrowest part of your torso, usually just above the belly button.
+            </div>
+          </div>
+          <div class="sg-measure-step">
+            <div class="sg-step-num">3</div>
+            <div class="sg-step-text">
+              <strong>Hips</strong>
+              Stand with feet together and measure around the fullest part of your hips, about 8 inches below your waist.
+            </div>
+          </div>
+          <div class="sg-measure-step">
+            <div class="sg-step-num">4</div>
+            <div class="sg-step-text">
+              <strong>Shoulder Width</strong>
+              Measure from the edge of one shoulder to the other, across the back.
+            </div>
+          </div>
+          <div class="sg-measure-step">
+            <div class="sg-step-num">5</div>
+            <div class="sg-step-text">
+              <strong>Foot Length (for shoes)</strong>
+              Place your foot on paper, mark the heel and longest toe, then measure the distance between the marks.
+            </div>
+          </div>
+        </div>
+        <div class="sg-note">📌 If a measurement falls between two sizes, choose the larger size for comfort. For fitted styles, choose the smaller size.</div>
+      </div>
+
+    </div><!-- end sg-content -->
+  </div>
+</div>
 <script type="module" src="/Myntra_Clone_Professional/notifications.js"></script>
 <script src="/Myntra_Clone_Professional/spinwheel.js"></script>
+<script src="/Myntra_Clone_Professional/tryon.js"></script>
 </body>
 </html>
