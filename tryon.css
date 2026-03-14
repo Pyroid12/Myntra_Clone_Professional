@@ -370,3 +370,72 @@ body.dark-mode .wa-sheet-title { color: #f4f4f5; }
     border-radius: 10px; padding: 10px 20px;
     font-size: 13px; cursor: pointer;
 }
+
+/* ══════════════════════════════════════
+   LOADING STATE
+══════════════════════════════════════ */
+.tryon-loading {
+    position: absolute; inset: 0;
+    background: #1a1a2e;
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px;
+}
+.tryon-loading-spinner {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 4px solid rgba(168,85,247,.2);
+    border-top-color: #a855f7;
+    animation: tryonSpin 1s linear infinite;
+}
+@keyframes tryonSpin { to { transform: rotate(360deg); } }
+.tryon-loading-text {
+    font-size: 15px; font-weight: 700; color: #fff;
+}
+.tryon-loading-sub {
+    font-size: 12px; color: rgba(255,255,255,.5);
+}
+
+/* ══════════════════════════════════════
+   STATUS BAR
+══════════════════════════════════════ */
+.tryon-status-bar {
+    position: absolute; bottom: 12px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,.65);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(168,85,247,.3);
+    border-radius: 20px; padding: 6px 18px;
+    font-size: 12px; font-weight: 600; color: #fff;
+    white-space: nowrap; z-index: 3;
+}
+
+/* ══════════════════════════════════════
+   UPLOAD WRAP
+══════════════════════════════════════ */
+.tryon-upload-wrap {
+    position: absolute; inset: 0;
+    background: #1a1a2e;
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px; gap: 12px;
+}
+.tryon-upload-hint {
+    font-size: 11px; color: rgba(255,255,255,.35);
+}
+
+/* Upload text button */
+.tryon-upload-text-btn {
+    background: none; border: none;
+    color: rgba(255,255,255,.5);
+    font-size: 12px; cursor: pointer;
+    margin-top: 4px; padding: 4px 8px;
+    text-decoration: underline;
+    transition: color .2s;
+}
+.tryon-upload-text-btn:hover { color: rgba(255,255,255,.8); }
+
+/* Canvas fills camera wrap */
+#tryonCanvas {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: none; /* already mirrored in JS */
+}
