@@ -1,0 +1,372 @@
+/* ============================================================
+   MYNTRA CLONE — tryon.css
+   Virtual Try-On AI + WhatsApp Share Preview
+   ============================================================ */
+
+/* ══════════════════════════════════════
+   VIRTUAL TRY-ON BUTTON (product page)
+══════════════════════════════════════ */
+.tryon-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #6c3ae8, #a855f7);
+    color: #fff; border: none; border-radius: 4px;
+    padding: 14px; font-size: 14px; font-weight: 800;
+    letter-spacing: .5px; text-transform: uppercase;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    cursor: pointer; margin-bottom: 12px;
+    transition: opacity .2s, transform .2s;
+    box-shadow: 0 4px 16px rgba(108,58,232,.3);
+}
+.tryon-btn:hover { opacity: .9; transform: translateY(-1px); }
+.tryon-btn .material-symbols-outlined { font-size: 20px; }
+
+/* ══════════════════════════════════════
+   TRY-ON OVERLAY
+══════════════════════════════════════ */
+.tryon-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.85);
+    z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    padding: 16px;
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+}
+.tryon-overlay.open { opacity: 1; visibility: visible; }
+
+.tryon-modal {
+    background: #0f0f1a;
+    border-radius: 20px;
+    width: 100%; max-width: 520px;
+    overflow: hidden;
+    transform: scale(.9);
+    transition: transform .4s cubic-bezier(.34,1.2,.64,1);
+    border: 1px solid rgba(255,255,255,.1);
+}
+.tryon-overlay.open .tryon-modal { transform: scale(1); }
+
+/* Header */
+.tryon-header {
+    background: linear-gradient(135deg, #6c3ae8, #a855f7);
+    padding: 16px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.tryon-header-left { display: flex; align-items: center; gap: 10px; }
+.tryon-header-left .material-symbols-outlined { font-size: 24px; color: #fff; }
+.tryon-header h3 { font-size: 16px; font-weight: 800; color: #fff; }
+.tryon-header p  { font-size: 11px; color: rgba(255,255,255,.75); margin-top: 2px; }
+.tryon-close {
+    background: rgba(255,255,255,.2); border: none;
+    border-radius: 50%; width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: #fff; font-size: 18px;
+    transition: background .2s;
+}
+.tryon-close:hover { background: rgba(255,255,255,.35); }
+
+/* Camera / Canvas Area */
+.tryon-camera-wrap {
+    position: relative;
+    width: 100%; aspect-ratio: 3/4;
+    background: #1a1a2e; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    max-height: 420px;
+}
+#tryonVideo {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1); /* mirror */
+}
+#tryonCanvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+}
+
+/* Product overlay on camera */
+.tryon-product-overlay {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 55%;
+    opacity: 0;
+    transition: opacity .5s;
+    pointer-events: none;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,.5));
+    animation: tryonFloat 3s ease-in-out infinite;
+}
+.tryon-product-overlay.visible { opacity: .82; }
+@keyframes tryonFloat {
+    0%,100% { transform: translate(-50%, -50%) translateY(0px); }
+    50%      { transform: translate(-50%, -50%) translateY(-8px); }
+}
+
+/* AI Scanning effect */
+.tryon-scan-line {
+    position: absolute; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #a855f7, #6c3ae8, #a855f7, transparent);
+    top: 0;
+    animation: tryonScan 2s linear infinite;
+    opacity: 0;
+}
+.tryon-scan-line.scanning { opacity: 1; }
+@keyframes tryonScan {
+    0%   { top: 0%; }
+    100% { top: 100%; }
+}
+
+/* Corner brackets */
+.tryon-corner {
+    position: absolute;
+    width: 24px; height: 24px;
+    border-color: #a855f7; border-style: solid;
+    opacity: 0; transition: opacity .5s;
+}
+.tryon-corner.visible { opacity: 1; }
+.tryon-corner.tl { top: 20%; left: 25%; border-width: 3px 0 0 3px; }
+.tryon-corner.tr { top: 20%; right: 25%; border-width: 3px 3px 0 0; }
+.tryon-corner.bl { bottom: 20%; left: 25%; border-width: 0 0 3px 3px; }
+.tryon-corner.br { bottom: 20%; right: 25%; border-width: 0 3px 3px 0; }
+
+/* Status messages */
+.tryon-status {
+    position: absolute; bottom: 16px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,.7);
+    color: #fff; font-size: 12px; font-weight: 600;
+    padding: 6px 16px; border-radius: 20px;
+    white-space: nowrap;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(168,85,247,.4);
+}
+
+/* Start screen (before camera) */
+.tryon-start {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px; padding: 24px;
+    background: #1a1a2e;
+}
+.tryon-start-icon { font-size: 64px; opacity: .6; }
+.tryon-start h4 { font-size: 18px; font-weight: 800; color: #fff; text-align: center; }
+.tryon-start p  { font-size: 13px; color: rgba(255,255,255,.6); text-align: center; line-height: 1.5; }
+.tryon-start-btn {
+    background: linear-gradient(135deg, #6c3ae8, #a855f7);
+    color: #fff; border: none; border-radius: 50px;
+    padding: 12px 32px; font-size: 14px; font-weight: 800;
+    cursor: pointer; display: flex; align-items: center; gap: 8px;
+    transition: opacity .2s;
+}
+.tryon-start-btn:hover { opacity: .9; }
+
+/* No camera fallback */
+.tryon-upload-section {
+    padding: 20px;
+    display: none;
+    flex-direction: column; align-items: center; gap: 12px;
+}
+.tryon-upload-section.show { display: flex; }
+.tryon-upload-label {
+    width: 100%;
+    border: 2px dashed rgba(168,85,247,.5);
+    border-radius: 12px; padding: 20px;
+    display: flex; flex-direction: column;
+    align-items: center; gap: 8px;
+    cursor: pointer; transition: border-color .2s;
+}
+.tryon-upload-label:hover { border-color: #a855f7; }
+.tryon-upload-label .material-symbols-outlined { font-size: 32px; color: #a855f7; }
+.tryon-upload-label span { font-size: 13px; color: rgba(255,255,255,.7); }
+
+/* Bottom controls */
+.tryon-controls {
+    padding: 16px 20px;
+    display: flex; gap: 10px;
+    background: #0f0f1a;
+    border-top: 1px solid rgba(255,255,255,.08);
+}
+.tryon-snap-btn {
+    flex: 1;
+    background: linear-gradient(135deg, #6c3ae8, #a855f7);
+    color: #fff; border: none; border-radius: 10px;
+    padding: 12px; font-size: 13px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center;
+    justify-content: center; gap: 6px;
+    transition: opacity .2s;
+}
+.tryon-snap-btn:hover { opacity: .9; }
+.tryon-snap-btn .material-symbols-outlined { font-size: 18px; }
+
+.tryon-whatsapp-btn {
+    flex: 1;
+    background: #25d366;
+    color: #fff; border: none; border-radius: 10px;
+    padding: 12px; font-size: 13px; font-weight: 700;
+    cursor: pointer; display: flex; align-items: center;
+    justify-content: center; gap: 6px;
+    transition: opacity .2s;
+}
+.tryon-whatsapp-btn:hover { opacity: .9; }
+
+/* ══════════════════════════════════════
+   WHATSAPP SHARE PREVIEW CARD
+══════════════════════════════════════ */
+.whatsapp-share-btn {
+    width: 100%;
+    background: #25d366;
+    color: #fff; border: none; border-radius: 4px;
+    padding: 14px; font-size: 14px; font-weight: 800;
+    letter-spacing: .5px;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    cursor: pointer; margin-bottom: 12px;
+    transition: opacity .2s, transform .2s;
+    box-shadow: 0 4px 16px rgba(37,211,102,.3);
+}
+.whatsapp-share-btn:hover { opacity: .9; transform: translateY(-1px); }
+.whatsapp-share-btn svg { width: 20px; height: 20px; fill: #fff; }
+
+/* WhatsApp Preview Modal */
+.wa-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.7);
+    backdrop-filter: blur(4px);
+    z-index: 9998;
+    display: flex; align-items: flex-end; justify-content: center;
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s, visibility .3s;
+}
+.wa-overlay.open { opacity: 1; visibility: visible; }
+
+.wa-sheet {
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    width: 100%; max-width: 480px;
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform .4s cubic-bezier(.34,1.1,.64,1);
+}
+.wa-overlay.open .wa-sheet { transform: translateY(0); }
+body.dark-mode .wa-sheet { background: #1e2033; }
+
+.wa-sheet-handle {
+    width: 36px; height: 4px;
+    background: #d4d5d9; border-radius: 2px;
+    margin: 0 auto 16px;
+}
+
+.wa-sheet-title {
+    font-size: 16px; font-weight: 800; color: #282c3f;
+    margin-bottom: 4px;
+    display: flex; align-items: center; gap: 8px;
+}
+body.dark-mode .wa-sheet-title { color: #f4f4f5; }
+.wa-sheet-title svg { width: 22px; height: 22px; fill: #25d366; }
+.wa-sheet-sub { font-size: 12px; color: #7e818c; margin-bottom: 16px; }
+
+/* WhatsApp message preview bubble */
+.wa-preview-bubble {
+    background: #dcf8c6;
+    border-radius: 12px 12px 12px 0;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+}
+.wa-preview-bubble::before {
+    content: '';
+    position: absolute; bottom: 0; left: -8px;
+    border: 8px solid transparent;
+    border-right-color: #dcf8c6;
+    border-bottom: none;
+}
+.wa-bubble-sender { font-size: 12px; font-weight: 700; color: #6c3ae8; margin-bottom: 6px; }
+.wa-bubble-text { font-size: 13px; color: #282c3f; line-height: 1.5; white-space: pre-line; }
+.wa-bubble-time { font-size: 10px; color: #7e818c; text-align: right; margin-top: 4px; }
+
+/* Product card inside bubble */
+.wa-product-card {
+    background: #fff;
+    border-radius: 8px; overflow: hidden;
+    margin-top: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.12);
+    display: flex; gap: 0;
+}
+.wa-product-img {
+    width: 72px; height: 72px;
+    object-fit: cover; flex-shrink: 0;
+}
+.wa-product-info {
+    padding: 8px 10px; flex: 1;
+}
+.wa-product-brand { font-size: 10px; color: #7e818c; font-weight: 600; }
+.wa-product-name  { font-size: 12px; font-weight: 700; color: #282c3f; line-height: 1.3; margin: 2px 0; }
+.wa-product-price { font-size: 13px; font-weight: 800; color: #ff3f6c; }
+.wa-product-original { font-size: 10px; color: #7e818c; text-decoration: line-through; }
+.wa-product-discount { font-size: 10px; color: #ff905a; font-weight: 700; margin-left: 4px; }
+
+/* Contact selector */
+.wa-contacts-title { font-size: 12px; font-weight: 700; color: #7e818c; margin-bottom: 10px; letter-spacing: .5px; text-transform: uppercase; }
+.wa-contacts { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; margin-bottom: 16px; }
+.wa-contacts::-webkit-scrollbar { display: none; }
+.wa-contact {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    cursor: pointer; flex-shrink: 0;
+}
+.wa-contact-avatar {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: #fff;
+}
+.wa-contact-name { font-size: 10px; color: #535766; font-weight: 600; white-space: nowrap; }
+
+.wa-send-btn {
+    width: 100%;
+    background: #25d366; color: #fff; border: none;
+    border-radius: 12px; padding: 14px;
+    font-size: 14px; font-weight: 800;
+    cursor: pointer; display: flex;
+    align-items: center; justify-content: center; gap: 8px;
+    transition: opacity .2s;
+}
+.wa-send-btn:hover { opacity: .9; }
+.wa-send-btn svg { width: 20px; height: 20px; fill: #fff; }
+
+.wa-cancel-btn {
+    width: 100%; background: none; border: none;
+    color: #7e818c; font-size: 13px; font-weight: 600;
+    padding: 10px; cursor: pointer; margin-top: 4px;
+}
+
+/* Snapshot preview modal */
+.snap-preview-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,.9);
+    z-index: 10000;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 16px; padding: 20px;
+    opacity: 0; visibility: hidden;
+    transition: opacity .3s;
+}
+.snap-preview-overlay.open { opacity: 1; visibility: visible; }
+#snapPreviewImg { max-width: 320px; border-radius: 12px; }
+.snap-actions { display: flex; gap: 12px; }
+.snap-download-btn {
+    background: #fff; color: #282c3f; border: none;
+    border-radius: 10px; padding: 12px 24px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+}
+.snap-wa-btn {
+    background: #25d366; color: #fff; border: none;
+    border-radius: 10px; padding: 12px 24px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; gap: 6px;
+}
+.snap-close-btn {
+    background: rgba(255,255,255,.15); color: #fff; border: none;
+    border-radius: 10px; padding: 10px 20px;
+    font-size: 13px; cursor: pointer;
+}
