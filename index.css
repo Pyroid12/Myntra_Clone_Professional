@@ -407,3 +407,174 @@ footer { background:#fff; border-top:1px solid var(--border); margin-top:32px; }
     opacity: .7; transition: opacity .2s;
 }
 .pwa-dismiss-btn:hover { opacity: 1; }
+
+/* ============================================================
+   RESPONSIVE FIXES — Desktop + Tablet + Mobile
+   ============================================================ */
+
+/* ── Large Desktop (1400px+) ── */
+@media (min-width: 1400px) {
+    header              { padding: 0 80px; }
+    .hero-slide         { padding: 48px 80px; }
+    .hero-title         { font-size: 56px; }
+    .categories-section { padding: 20px 80px; }
+    .filter-bar         { padding: 10px 80px; }
+    .items-section      { padding: 24px 80px 60px; }
+    .items-container    { grid-template-columns: repeat(5, 1fr); gap: 24px; }
+    .footer-top         { padding: 40px 80px 28px; grid-template-columns: repeat(4,1fr); }
+    .footer-bottom,
+    .footer-divider     { padding: 14px 80px; margin: 0 80px; }
+}
+
+/* ── Standard Desktop (1100px - 1400px) ── */
+@media (min-width: 1100px) and (max-width: 1399px) {
+    .items-container { grid-template-columns: repeat(4, 1fr); }
+    .search_bar      { max-width: 360px; }
+}
+
+/* ── Small Desktop / Large Tablet (900px - 1100px) ── */
+@media (min-width: 900px) and (max-width: 1099px) {
+    header              { padding: 0 24px; gap: 12px; }
+    .nav_bar a          { padding: 0 8px; font-size: 12px; }
+    .search_bar         { max-width: 260px; }
+    .hero-slide         { padding: 36px 40px; }
+    .hero-title         { font-size: 38px; }
+    .hero-stat-num      { font-size: 26px; }
+    .categories-section { padding: 16px 24px; }
+    .filter-bar         { padding: 10px 24px; }
+    .items-section      { padding: 20px 24px 40px; }
+    .items-container    { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .footer-top         { padding: 28px 24px; }
+    .footer-bottom,
+    .footer-divider     { padding: 12px 24px; margin: 0 24px; }
+}
+
+/* ── Tablet (600px - 900px) ── */
+@media (min-width: 600px) and (max-width: 899px) {
+    header {
+        padding: 0 16px; gap: 10px; height: 56px;
+    }
+    .myntra_home        { height: 28px; }
+    .nav_bar            { display: none; }
+    .search_bar         { max-width: none; flex: 1; }
+    .action_name        { display: none; }
+    .action_bar         { gap: 10px; }
+
+    .hero-slide         { padding: 28px 24px; }
+    .hero-title         { font-size: 30px; }
+    .hero-stats         { gap: 20px; }
+    .hero-stat-num      { font-size: 22px; }
+
+    .categories-section { padding: 14px 16px; }
+    .filter-bar         { padding: 8px 16px; top: 56px; }
+    .filter-chips       { display: none; }
+
+    .items-section      { padding: 16px 16px 40px; }
+    .items-container    { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+    .company-name       { font-size: 13px; }
+    .item-name          { font-size: 12px; }
+    .current-price      { font-size: 13px; }
+
+    .footer-top         { grid-template-columns: repeat(2,1fr); padding: 20px 16px; }
+    .footer-bottom,
+    .footer-divider     { padding: 10px 16px; margin: 0; }
+}
+
+/* ── Mobile (up to 599px) ── */
+@media (max-width: 599px) {
+    header {
+        padding: 0 12px; gap: 8px; height: 52px;
+    }
+    .myntra_home        { height: 26px; }
+    .nav_bar            { display: none; }
+    .search_bar         { max-width: none; flex: 1; height: 32px; }
+    .action_name        { display: none; }
+    .action_bar         { gap: 8px; }
+    .action_icon        { font-size: 20px; }
+
+    .hero-slide {
+        padding: 20px 16px;
+        flex-direction: column;
+        text-align: center;
+        gap: 16px;
+    }
+    .hero-title         { font-size: 26px; }
+    .hero-subtitle      { font-size: 13px; margin-bottom: 16px; }
+    .hero-stats         { justify-content: center; gap: 16px; }
+    .hero-stat-num      { font-size: 20px; }
+    .hero-stat-label    { font-size: 10px; }
+
+    .categories-section { padding: 12px 12px; }
+    .section-heading    { font-size: 12px; }
+    .category-chip      { padding: 8px 12px; min-width: 60px; }
+    .category-icon      { font-size: 20px; }
+
+    .filter-bar         { padding: 8px 12px; top: 52px; }
+    .filter-count       { font-size: 13px; }
+    .filter-chips       { display: none; }
+
+    .items-section      { padding: 12px 12px 60px; }
+    .items-container    { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+    .item-body          { padding: 8px 10px 10px; }
+    .company-name       { font-size: 13px; }
+    .item-name          { font-size: 11px; }
+    .current-price      { font-size: 13px; }
+    .original-price,
+    .discount           { font-size: 11px; }
+    .btn-add-bag        { padding: 8px 0; font-size: 11px; }
+
+    .footer-top         { grid-template-columns: repeat(2,1fr); padding: 16px 12px; gap: 16px; }
+    .footer-bottom,
+    .footer-divider     { padding: 10px 12px; margin: 0; }
+    .copyright          { font-size: 11px; text-align: center; }
+}
+
+/* ── Fix header action bar on all screen sizes ── */
+#signOutBtn {
+    display: none;
+    align-items: center;
+    gap: 2px;
+    flex-direction: column;
+    cursor: pointer;
+    color: var(--dark);
+    padding: 4px 6px;
+    background: none;
+    border: none;
+    font-family: inherit;
+    transition: color .2s;
+}
+#signOutBtn:hover { color: var(--pink); }
+
+/* ── Fix search bar on medium screens ── */
+@media (min-width: 900px) {
+    .search_bar { min-width: 200px; }
+}
+
+/* ── Fix hero slider on all screens ── */
+.hero-slides { will-change: transform; }
+.hero-slide  { min-height: 180px; }
+
+@media (min-width: 1200px) {
+    .hero-slide  { min-height: 260px; padding: 48px 80px; }
+    .hero-title  { font-size: 52px; }
+}
+
+/* ── Fix flash sale bar on small screens ── */
+@media (max-width: 480px) {
+    .flash-sale-bar     { padding: 8px 12px; gap: 8px; font-size: 12px; }
+    .flash-unit         { font-size: 15px; min-width: 36px; padding: 3px 7px; }
+    .flash-label span   { font-size: 15px; }
+}
+
+/* ── Fix skeleton grid ── */
+@media (min-width: 1400px) {
+    .skeleton-grid { grid-template-columns: repeat(5,1fr); padding: 24px 80px 60px; }
+}
+@media (min-width: 900px) and (max-width: 1099px) {
+    .skeleton-grid { grid-template-columns: repeat(3,1fr); padding: 20px 24px; }
+}
+@media (min-width: 600px) and (max-width: 899px) {
+    .skeleton-grid { grid-template-columns: repeat(3,1fr); padding: 16px 16px; }
+}
