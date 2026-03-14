@@ -27,9 +27,9 @@ measurementId: "G-QKSQ71PPHN"
    4. Go to Account → copy Public Key
    5. Replace the values below
    ─────────────────────────────────────────── */
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // e.g. service_abc123
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // e.g. template_xyz789
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // e.g. user_aBcDeFgHiJkL
+const EMAILJS_SERVICE_ID  = 'service_4ilqc3l';   // e.g. service_abc123
+const EMAILJS_TEMPLATE_ID = 'template_oga9v27';  // e.g. template_xyz789
+const EMAILJS_PUBLIC_KEY  = 'nC-Cy0nr5u-iWoGgm';   // e.g. user_aBcDeFgHiJkL
 
 /* ── Init ── */
 const app  = initializeApp(firebaseConfig);
