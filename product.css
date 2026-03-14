@@ -771,3 +771,20 @@ body.dark-mode .sg-fit-tip { background: #2a1620; border-color: #5c1e2e; color: 
     border-radius: 8px; margin-top: 12px; line-height: 1.6;
 }
 body.dark-mode .sg-note { background: #2a2d42; }
+
+/* ── Desktop Responsive Fixes ── */
+@media (min-width: 1200px) {
+    .product-page   { max-width: 1200px; margin: 0 auto; padding: 24px 60px 60px; gap: 60px; }
+    .pd-img-section { width: 500px; }
+}
+@media (min-width: 900px) and (max-width: 1199px) {
+    .product-page   { padding: 20px 32px 48px; gap: 40px; }
+    .pd-img-section { width: 420px; }
+}
+@media (max-width: 899px) {
+    .product-page   { flex-direction: column; padding: 16px 16px 80px; }
+    .pd-img-section { width: 100%; }
+}
+@media (max-width: 599px) {
+    .product-page   { padding: 12px 12px 80px; }
+}
